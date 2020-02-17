@@ -105,6 +105,23 @@ void LCD_Begin(void);
 // Write a pixel to x,y coordinates
 void LCD_WritePixel(uint16_t x, uint16_t y, uint16_t color);
 
+// Fills a rectangle on the screen
+void LCD_FillRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color);
+
+// Fill the whole screen with a color
+static inline void LCD_FillScreen(uint16_t color) {
+    LCD_FillRect(0, 0, ILI9341_TFTWIDTH, ILI9341_TFTHEIGHT, color);
+}
+
+// Fills the screen with black
+static inline void LCD_ClearScreen() {
+    LCD_FillScreen(ILI9341_BLACK);
+}
+
+// Writes a bitmap to the screen at the specified location
+void LCD_WriteBitmap(uint16_t* pixels, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+
+// Inverts the display
 void LCD_Invert(bool invert);
 
 #ifdef	__cplusplus

@@ -51,23 +51,35 @@
 #include "mcc_generated_files/delay.h"
 #include "lcd_ILI9341.h"
 
+#include "images/rose_logo.h"
+
 /*
                          Main application
  */
-int main(void)
-{
+int main(void) {
+    bool bmp_written = false;
     // initialize the device
     SYSTEM_Initialize();
-    // LCD_Begin();
+    LCD_Begin();
+    DELAY_milliseconds(5);
     
-    // LCD_WritePixel(120, 160, ILI9341_MAGENTA);
-    // LCD_Invert(true);
     // Add your application code
-        FatFsDemo_Tasks();
-        DELAY_milliseconds(500);
-        IO_LED_SetHigh();
-    while (1)
-    {
+    while (1) {
+        
+        if(IO_PB_GetValue() == 0) {
+            if(bmp_written) {
+                LCD_FillRect(0, 0, 100, 150, ILI9341_BLACK);
+                DELAY_milliseconds(50);
+                IO_LED_SetLow();
+                bmp_written = false;
+            }
+            else {
+                LCD_WriteBitmap((uint16_t*)rose_logo_img, 0, 0, 100, 150);
+                DELAY_milliseconds(50);
+                IO_LED_SetHigh();
+                bmp_written = true;
+            }
+        }
         
     }
     return 1; 

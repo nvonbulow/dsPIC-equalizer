@@ -53,18 +53,18 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "drivers/spi_master.h"
+#include "delay.h"
 #include "watchdog.h"
 #include "spi1_driver.h"
-#include "reset.h"
+#include "sd_spi/sd_spi.h"
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "sd_spi/sd_spi.h"
-#include "fatfs/ff.h"
-#include "delay.h"
 #include "adc1.h"
+#include "fatfs/ff.h"
+#include "reset.h"
 
 #ifndef _XTAL_FREQ
-#define _XTAL_FREQ  8000000UL
+#define _XTAL_FREQ  200000000UL
 #endif
 #define WDT_CLR_KEY 0x5743
 

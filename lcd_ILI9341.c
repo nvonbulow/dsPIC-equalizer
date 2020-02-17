@@ -21,7 +21,10 @@
 #define LCD_WIDTH ILI9341_TFTWIDTH
 #define LCD_HEIGHT ILI9341_TFTHEIGHT
 
-#define LCD_SPI_Delay() DELAY_milliseconds(1);
+#define LCD_SPI_CLKSPEED 1000000
+
+// Delays 2 SPI clock periods
+#define LCD_SPI_Delay() DELAY_microseconds(2000/LCD_SPI_CLKSPEED);
 
 // The sequence of commands needed to initialize the display
 // Taken from the Adafruit library
@@ -53,10 +56,15 @@ static const uint8_t initcmd[] = {
   0x00                                   // End of list
 };
 
+// Low level byte sending
 bool LCD_sendCommand(uint8_t, const uint8_t*, uint8_t);
 void LCD_writeCommand(uint8_t);
 bool LCD_writeByte(uint8_t);
 bool LCD_writeWord(uint16_t);
+
+// High level private functions
+void LCD_setAddressWindow(uint16_t x1, uint16_t y1, uint16_t width, uint16_t height);
+void LCD_fillScreen(uint16_t color);
 
 inline bool LCD_SPI_Start_() {
     if(LCD_SPI_MasterOpen() == false) {
@@ -87,17 +95,20 @@ void LCD_Begin() {
     const uint8_t *addr = initcmd;
     // Send software reset
     LCD_writeCommand(ILI9341_SWRESET);
+    LCD_writeCommand(ILI9341_SWRESET);
     
     while((cmd = *(addr++)) > 0) {
         x = *(addr++);
-        numArgs = x & 0x7F;
+        numArgs = x & 0x7F; // MSB indicates a delay of 150ms, so ignore this
         LCD_sendCommand(cmd, addr, numArgs);
         addr += numArgs;
-        // Some commands require a delay
+        // Some commands require a delay, indicated by the MSB of numArgs
         if(x & 0x80) {
             DELAY_milliseconds(150);
         }
     }
+    
+    LCD_FillScreen(ILI9341_BLACK);
 }
 
 // Write a command with data arguments and leave in data mode
@@ -106,8 +117,8 @@ bool LCD_sendCommand(uint8_t commandByte, const uint8_t *dataBytes, uint8_t numD
     LCD_SPI_Start();
     // Send the command
     LCD_SPI_CmdMode();
-    LCD_SPI_WriteByte(commandByte);
-    
+    LCD_SPI_ExchangeByte(commandByte);
+    LCD_SPI_Delay(); // Allow byte to finish sending
     // Send the associated data
     LCD_SPI_DataMode();
     if(dataBytes) {
@@ -122,7 +133,7 @@ bool LCD_sendCommand(uint8_t commandByte, const uint8_t *dataBytes, uint8_t numD
 bool LCD_writeByte(uint8_t data) {
     LCD_SPI_Start();
     
-    LCD_SPI_WriteByte(data);
+    LCD_SPI_ExchangeByte(data);
     
     LCD_SPI_End();
     
@@ -146,7 +157,7 @@ void LCD_writeCommand(uint8_t commandByte) {
     LCD_SPI_DataMode();
 }
 
-void LCD_setAddress(uint16_t x1, uint16_t y1, uint16_t width, uint16_t height) {
+void LCD_setAddressWindow(uint16_t x1, uint16_t y1, uint16_t width, uint16_t height) {
     uint16_t x2 = (x1 + width -1), y2 = (y1 + height - 1);
     LCD_writeCommand(ILI9341_CASET); // Column address set
     LCD_writeWord(x1);
@@ -157,10 +168,34 @@ void LCD_setAddress(uint16_t x1, uint16_t y1, uint16_t width, uint16_t height) {
     LCD_writeCommand(ILI9341_RAMWR); // Write to ram
 }
 
+void LCD_writeColor(uint16_t color, uint32_t count) {
+    while(count-- > 0) {
+        LCD_writeWord(color);
+    }
+}
+
 void LCD_WritePixel(uint16_t x, uint16_t y, uint16_t color) {
     if(x >= 0 && x < LCD_WIDTH && y >= 0 && y < LCD_HEIGHT) {
-        LCD_setAddress(x, y, 1, 1);
+        LCD_setAddressWindow(x, y, 1, 1);
         LCD_writeWord(color);
+    }
+}
+
+void LCD_FillRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color) {
+    uint32_t i, num_pixels = (uint32_t) width * height;
+    LCD_setAddressWindow(x, y, width, height);
+    
+    for(i = 0; i < num_pixels; i++) {
+        LCD_writeWord(color);
+    }
+}
+
+void LCD_WriteBitmap(uint16_t* pixels, uint16_t x, uint16_t y, uint16_t width, uint16_t height) {
+    uint32_t i, num_pixels = (uint32_t) width * height;
+    LCD_setAddressWindow(x, y, width, height);
+    
+    for(i = 0; i < num_pixels; i++) {
+        LCD_writeWord(pixels[i]);
     }
 }
 

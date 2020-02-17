@@ -113,14 +113,14 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x1f2           0x2eb  (747)
-.const                       0x3f2               0x218           0x324  (804)
-.text                        0x60a              0x3600          0x5100  (20736)
-.dinit                      0x3c0a                0x3c            0x5a  (90)
-.text                       0x3c46                0x52            0x7b  (123)
-.init.delay32               0x3c98                0x1c            0x2a  (42)
-.text                       0x3cb4                0x2a            0x3f  (63)
+.const                       0x3f2              0x7748          0xb2ec  (45804)
+.text                       0x7b3a              0x3770          0x5328  (21288)
+.dinit                      0xb2aa                0x3c            0x5a  (90)
+.text                       0xb2e6                0x52            0x7b  (123)
+.init.delay32               0xb338                0x1c            0x2a  (42)
+.text                       0xb354                0x1c            0x2a  (42)
 
-                 Total "program" memory used (bytes):         0x584d  (22605) 8%
+                 Total "program" memory used (bytes):        0x10a28  (68136) 25%
 
 
 "data" Memory  [Origin = 0x1000, Length = 0x6000]
@@ -160,8 +160,8 @@ External Symbols in Program Memory (by address):
 
                   0x000200                  __resetPRI
                   0x00023c                  __psv_init
-                  0x000248                  __data_init
                   0x000248                  __data_init_extended
+                  0x000248                  __data_init
                   0x000336                  __OscillatorFail
                   0x00033e                  __StackError
                   0x000348                  __AddressError
@@ -172,123 +172,130 @@ External Symbols in Program Memory (by address):
                   0x0003b6                  ___udivsi3
                   0x0003d6                  _memcpy
                   0x0003e4                  _memset
-                  0x00059c                  _spiMaster
-                  0x001f2e                  _f_mount
-                  0x001f94                  _f_open
-                  0x00228c                  _f_read
-                  0x002510                  _f_write
-                  0x002812                  _f_sync
-                  0x0028ec                  _f_close
-                  0x002916                  _f_chdrive
-                  0x002936                  _f_chdir
-                  0x0029a2                  _SD_SPI_IsMediaPresent
-                  0x0029b8                  _SD_SPI_GetSectorSize
-                  0x0029c0                  _SD_SPI_GetSectorCount
-                  0x0029ca                  _SD_SPI_SectorRead
-                  0x002a36                  _SD_SPI_SectorWrite
-                  0x002aa2                  _SD_SPI_IsMediaInitialized
-                  0x002ab4                  _SD_SPI_IsWriteProtected
-                  0x002aec                  _SD_SPI_MediaInitialize
-                  0x0033f6                  _LCD_SPI_Start_
-                  0x00340e                  _LCD_SPI_End_
-                  0x00341e                  _LCD_SPI_CmdMode
-                  0x00342a                  _LCD_SPI_DataMode
-                  0x003436                  _LCD_Begin
-                  0x003482                  _LCD_sendCommand
-                  0x0034ba                  _LCD_writeByte
-                  0x0034d8                  _LCD_writeWord
-                  0x003506                  _LCD_writeCommand
-                  0x003516                  _LCD_setAddress
-                  0x003552                  _LCD_WritePixel
-                  0x00357c                  _LCD_Invert
-                  0x003592                  _ADC1_Initialize
-                  0x00362c                  _ADC1_Core0PowerEnable
-                  0x003642                  _ADC1_Core1PowerEnable
-                  0x003658                  _ADC1_SharedCorePowerEnable
-                  0x003674                  _ADC1_SetCommonInterruptHandler
-                  0x0036a4                  _ADC1_SetLCD_YPInterruptHandler
-                  0x0036d8                  _ADC1_SetLCD_XMInterruptHandler
-                  0x003704                  _spi1_close
-                  0x00370c                  _spi1_open
-                  0x003762                  _spi1_exchangeByte
-                  0x00377c                  _spi1_exchangeBlock
-                  0x0037ae                  _spi1_writeBlock
-                  0x0037dc                  _spi1_readBlock
-                  0x00380c                  _spi1_writeByte
-                  0x003818                  _spi1_readByte
-                  0x003822                  _spi1_isr
-                  0x00383e                  _spi1_setSpiISR
-                  0x00384a                  _RESET_GetCause
-                  0x003956                  _RESET_CauseClearAll
-                  0x00395e                  _disk_status
-                  0x00399a                  _disk_initialize
-                  0x0039c4                  _disk_read
-                  0x0039fe                  _disk_write
-                  0x003a38                  _disk_ioctl
-                  0x003a56                  _CLOCK_Initialize
-                  0x003aaa                  _CLOCK_AuxPllLockStatusGet
-                  0x003ac2                  _FatFsDemo_Tasks
-                  0x003b1c                  _DELAY_milliseconds
-                  0x003b3e                  _DELAY_microseconds
-                  0x003b72                  _PIN_MANAGER_Initialize
-                  0x003bc6                  _SDFAST_open
-                  0x003bd0                  _LCD_open
-                  0x003bda                  _SDSLOW_open
-                  0x003be4                  _spi_master_open
-                  0x003c64                  _SYSTEM_Initialize
-                  0x003c78                  _OSCILLATOR_Initialize
-                  0x003c80                  _SYSTEM_GetResetCause
-                  0x003c90                  _SYSTEM_ResetCauseClearAll
-                  0x003c98                  ___delay32
-                  0x003cca                  _main
-                  0x003cd8                  _INTERRUPT_Initialize
+                  0x0003f2                  _rose_logo_img
+                  0x007acc                  _spiMaster
+                  0x00945e                  _f_mount
+                  0x0094c4                  _f_open
+                  0x0097bc                  _f_read
+                  0x009a40                  _f_write
+                  0x009d42                  _f_sync
+                  0x009e1c                  _f_close
+                  0x009e46                  _f_chdrive
+                  0x009e66                  _f_chdir
+                  0x009ed2                  _SD_SPI_IsMediaPresent
+                  0x009ee8                  _SD_SPI_GetSectorSize
+                  0x009ef0                  _SD_SPI_GetSectorCount
+                  0x009efa                  _SD_SPI_SectorRead
+                  0x009f66                  _SD_SPI_SectorWrite
+                  0x009fd2                  _SD_SPI_IsMediaInitialized
+                  0x009fe4                  _SD_SPI_IsWriteProtected
+                  0x00a01c                  _SD_SPI_MediaInitialize
+                  0x00a93a                  _LCD_SPI_Start_
+                  0x00a952                  _LCD_SPI_End_
+                  0x00a962                  _LCD_SPI_CmdMode
+                  0x00a96e                  _LCD_SPI_DataMode
+                  0x00a97a                  _LCD_Begin
+                  0x00a9ce                  _LCD_sendCommand
+                  0x00aa0a                  _LCD_writeByte
+                  0x00aa28                  _LCD_writeWord
+                  0x00aa56                  _LCD_writeCommand
+                  0x00aa66                  _LCD_setAddressWindow
+                  0x00aaa2                  _LCD_writeColor
+                  0x00aad4                  _LCD_WritePixel
+                  0x00aafe                  _LCD_FillRect
+                  0x00ab56                  _LCD_WriteBitmap
+                  0x00abb6                  _LCD_Invert
+                  0x00abcc                  _ADC1_Initialize
+                  0x00ac66                  _ADC1_Core0PowerEnable
+                  0x00ac7c                  _ADC1_Core1PowerEnable
+                  0x00ac92                  _ADC1_SharedCorePowerEnable
+                  0x00acae                  _ADC1_SetCommonInterruptHandler
+                  0x00acde                  _ADC1_SetLCD_YPInterruptHandler
+                  0x00ad12                  _ADC1_SetLCD_XMInterruptHandler
+                  0x00ad3e                  _spi1_close
+                  0x00ad46                  _spi1_open
+                  0x00ad9c                  _spi1_exchangeByte
+                  0x00adb6                  _spi1_exchangeBlock
+                  0x00ade8                  _spi1_writeBlock
+                  0x00ae16                  _spi1_readBlock
+                  0x00ae46                  _spi1_writeByte
+                  0x00ae52                  _spi1_readByte
+                  0x00ae5c                  _spi1_isr
+                  0x00ae78                  _spi1_setSpiISR
+                  0x00ae84                  _RESET_GetCause
+                  0x00af90                  _RESET_CauseClearAll
+                  0x00af98                  _disk_status
+                  0x00afd4                  _disk_initialize
+                  0x00affe                  _disk_read
+                  0x00b038                  _disk_write
+                  0x00b072                  _disk_ioctl
+                  0x00b090                  _CLOCK_Initialize
+                  0x00b0fa                  _CLOCK_AuxPllLockStatusGet
+                  0x00b112                  _FatFsDemo_Tasks
+                  0x00b16c                  _DELAY_milliseconds
+                  0x00b18e                  _DELAY_microseconds
+                  0x00b1c2                  _PIN_MANAGER_Initialize
+                  0x00b216                  _main
+                  0x00b266                  _SDFAST_open
+                  0x00b270                  _LCD_open
+                  0x00b27a                  _SDSLOW_open
+                  0x00b284                  _spi_master_open
+                  0x00b304                  _SYSTEM_Initialize
+                  0x00b318                  _OSCILLATOR_Initialize
+                  0x00b320                  _SYSTEM_GetResetCause
+                  0x00b330                  _SYSTEM_ResetCauseClearAll
+                  0x00b338                  ___delay32
+                  0x00b36a                  _INTERRUPT_Initialize
                   0x02bf00                  __FSEC.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x00362c                  _ADC1_Core0PowerEnable
-                  0x003642                  _ADC1_Core1PowerEnable
-                  0x003592                  _ADC1_Initialize
-                  0x003674                  _ADC1_SetCommonInterruptHandler
-                  0x0036d8                  _ADC1_SetLCD_XMInterruptHandler
-                  0x0036a4                  _ADC1_SetLCD_YPInterruptHandler
-                  0x003658                  _ADC1_SharedCorePowerEnable
-                  0x003aaa                  _CLOCK_AuxPllLockStatusGet
-                  0x003a56                  _CLOCK_Initialize
-                  0x003b3e                  _DELAY_microseconds
-                  0x003b1c                  _DELAY_milliseconds
-                  0x003ac2                  _FatFsDemo_Tasks
-                  0x003cd8                  _INTERRUPT_Initialize
-                  0x003436                  _LCD_Begin
-                  0x00357c                  _LCD_Invert
-                  0x00341e                  _LCD_SPI_CmdMode
-                  0x00342a                  _LCD_SPI_DataMode
-                  0x00340e                  _LCD_SPI_End_
-                  0x0033f6                  _LCD_SPI_Start_
-                  0x003552                  _LCD_WritePixel
-                  0x003bd0                  _LCD_open
-                  0x003482                  _LCD_sendCommand
-                  0x003516                  _LCD_setAddress
-                  0x0034ba                  _LCD_writeByte
-                  0x003506                  _LCD_writeCommand
-                  0x0034d8                  _LCD_writeWord
-                  0x003c78                  _OSCILLATOR_Initialize
-                  0x003b72                  _PIN_MANAGER_Initialize
-                  0x003956                  _RESET_CauseClearAll
-                  0x00384a                  _RESET_GetCause
-                  0x003bc6                  _SDFAST_open
-                  0x003bda                  _SDSLOW_open
-                  0x0029c0                  _SD_SPI_GetSectorCount
-                  0x0029b8                  _SD_SPI_GetSectorSize
-                  0x002aa2                  _SD_SPI_IsMediaInitialized
-                  0x0029a2                  _SD_SPI_IsMediaPresent
-                  0x002ab4                  _SD_SPI_IsWriteProtected
-                  0x002aec                  _SD_SPI_MediaInitialize
-                  0x0029ca                  _SD_SPI_SectorRead
-                  0x002a36                  _SD_SPI_SectorWrite
-                  0x003c80                  _SYSTEM_GetResetCause
-                  0x003c64                  _SYSTEM_Initialize
-                  0x003c90                  _SYSTEM_ResetCauseClearAll
+                  0x00ac66                  _ADC1_Core0PowerEnable
+                  0x00ac7c                  _ADC1_Core1PowerEnable
+                  0x00abcc                  _ADC1_Initialize
+                  0x00acae                  _ADC1_SetCommonInterruptHandler
+                  0x00ad12                  _ADC1_SetLCD_XMInterruptHandler
+                  0x00acde                  _ADC1_SetLCD_YPInterruptHandler
+                  0x00ac92                  _ADC1_SharedCorePowerEnable
+                  0x00b0fa                  _CLOCK_AuxPllLockStatusGet
+                  0x00b090                  _CLOCK_Initialize
+                  0x00b18e                  _DELAY_microseconds
+                  0x00b16c                  _DELAY_milliseconds
+                  0x00b112                  _FatFsDemo_Tasks
+                  0x00b36a                  _INTERRUPT_Initialize
+                  0x00a97a                  _LCD_Begin
+                  0x00aafe                  _LCD_FillRect
+                  0x00abb6                  _LCD_Invert
+                  0x00a962                  _LCD_SPI_CmdMode
+                  0x00a96e                  _LCD_SPI_DataMode
+                  0x00a952                  _LCD_SPI_End_
+                  0x00a93a                  _LCD_SPI_Start_
+                  0x00ab56                  _LCD_WriteBitmap
+                  0x00aad4                  _LCD_WritePixel
+                  0x00b270                  _LCD_open
+                  0x00a9ce                  _LCD_sendCommand
+                  0x00aa66                  _LCD_setAddressWindow
+                  0x00aa0a                  _LCD_writeByte
+                  0x00aaa2                  _LCD_writeColor
+                  0x00aa56                  _LCD_writeCommand
+                  0x00aa28                  _LCD_writeWord
+                  0x00b318                  _OSCILLATOR_Initialize
+                  0x00b1c2                  _PIN_MANAGER_Initialize
+                  0x00af90                  _RESET_CauseClearAll
+                  0x00ae84                  _RESET_GetCause
+                  0x00b266                  _SDFAST_open
+                  0x00b27a                  _SDSLOW_open
+                  0x009ef0                  _SD_SPI_GetSectorCount
+                  0x009ee8                  _SD_SPI_GetSectorSize
+                  0x009fd2                  _SD_SPI_IsMediaInitialized
+                  0x009ed2                  _SD_SPI_IsMediaPresent
+                  0x009fe4                  _SD_SPI_IsWriteProtected
+                  0x00a01c                  _SD_SPI_MediaInitialize
+                  0x009efa                  _SD_SPI_SectorRead
+                  0x009f66                  _SD_SPI_SectorWrite
+                  0x00b320                  _SYSTEM_GetResetCause
+                  0x00b304                  _SYSTEM_Initialize
+                  0x00b330                  _SYSTEM_ResetCauseClearAll
                   0x000348                  __AddressError
                   0x0003b0                  __DefaultInterrupt
                   0x02bf00                  __FSEC.sec
@@ -297,40 +304,41 @@ External Symbols in Program Memory (by name):
                   0x000336                  __OscillatorFail
                   0x000360                  __SoftTrapError
                   0x00033e                  __StackError
-                  0x003c98                  ___delay32
+                  0x00b338                  ___delay32
                   0x0003b6                  ___udivsi3
                   0x000248                  __data_init
                   0x000248                  __data_init_extended
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x00399a                  _disk_initialize
-                  0x003a38                  _disk_ioctl
-                  0x0039c4                  _disk_read
-                  0x00395e                  _disk_status
-                  0x0039fe                  _disk_write
-                  0x002936                  _f_chdir
-                  0x002916                  _f_chdrive
-                  0x0028ec                  _f_close
-                  0x001f2e                  _f_mount
-                  0x001f94                  _f_open
-                  0x00228c                  _f_read
-                  0x002812                  _f_sync
-                  0x002510                  _f_write
-                  0x003cca                  _main
+                  0x00afd4                  _disk_initialize
+                  0x00b072                  _disk_ioctl
+                  0x00affe                  _disk_read
+                  0x00af98                  _disk_status
+                  0x00b038                  _disk_write
+                  0x009e66                  _f_chdir
+                  0x009e46                  _f_chdrive
+                  0x009e1c                  _f_close
+                  0x00945e                  _f_mount
+                  0x0094c4                  _f_open
+                  0x0097bc                  _f_read
+                  0x009d42                  _f_sync
+                  0x009a40                  _f_write
+                  0x00b216                  _main
                   0x0003d6                  _memcpy
                   0x0003e4                  _memset
-                  0x003704                  _spi1_close
-                  0x00377c                  _spi1_exchangeBlock
-                  0x003762                  _spi1_exchangeByte
-                  0x003822                  _spi1_isr
-                  0x00370c                  _spi1_open
-                  0x0037dc                  _spi1_readBlock
-                  0x003818                  _spi1_readByte
-                  0x00383e                  _spi1_setSpiISR
-                  0x0037ae                  _spi1_writeBlock
-                  0x00380c                  _spi1_writeByte
-                  0x00059c                  _spiMaster
-                  0x003be4                  _spi_master_open
+                  0x0003f2                  _rose_logo_img
+                  0x00ad3e                  _spi1_close
+                  0x00adb6                  _spi1_exchangeBlock
+                  0x00ad9c                  _spi1_exchangeByte
+                  0x00ae5c                  _spi1_isr
+                  0x00ad46                  _spi1_open
+                  0x00ae16                  _spi1_readBlock
+                  0x00ae52                  _spi1_readByte
+                  0x00ae78                  _spi1_setSpiISR
+                  0x00ade8                  _spi1_writeBlock
+                  0x00ae46                  _spi1_writeByte
+                  0x007acc                  _spiMaster
+                  0x00b284                  _spi_master_open
 
 Memory Configuration
 
@@ -511,7 +519,7 @@ __FBTSEQ
 .comment
  *(.comment)
 
-.debug_info       0x000000       0xc60a
+.debug_info       0x000000       0xca00
  *(.debug_info)
  .debug_info      0x000000        0x43b build/default/production/mcc_generated_files/drivers/spi_master.o
  .debug_info      0x00043b        0x144 build/default/production/mcc_generated_files/fatfs/ffsystem.o
@@ -523,18 +531,18 @@ __FBTSEQ
  .debug_info      0x003f87        0x494 build/default/production/mcc_generated_files/reset.o
  .debug_info      0x00441b       0x148f build/default/production/mcc_generated_files/system.o
  .debug_info      0x0058aa        0x615 build/default/production/mcc_generated_files/traps.o
- .debug_info      0x005ebf        0x562 build/default/production/mcc_generated_files/clock.o
- .debug_info      0x006421        0x160 build/default/production/mcc_generated_files/interrupt_manager.o
- .debug_info      0x006581       0x1439 build/default/production/mcc_generated_files/mcc.o
- .debug_info      0x0079ba        0x465 build/default/production/mcc_generated_files/pin_manager.o
- .debug_info      0x007e1f       0x1d1f build/default/production/mcc_generated_files/spi1_driver.o
- .debug_info      0x009b3e        0x1b8 build/default/production/mcc_generated_files/delay.o
- .debug_info      0x009cf6       0x1f23 build/default/production/mcc_generated_files/adc1.o
- .debug_info      0x00bc19        0x214 build/default/production/main.o
- .debug_info      0x00be2d        0x7dd build/default/production/lcd_ILI9341.o
+ .debug_info      0x005ebf        0x6ca build/default/production/mcc_generated_files/clock.o
+ .debug_info      0x006589        0x160 build/default/production/mcc_generated_files/interrupt_manager.o
+ .debug_info      0x0066e9       0x1439 build/default/production/mcc_generated_files/mcc.o
+ .debug_info      0x007b22        0x465 build/default/production/mcc_generated_files/pin_manager.o
+ .debug_info      0x007f87       0x1d1f build/default/production/mcc_generated_files/spi1_driver.o
+ .debug_info      0x009ca6        0x1b8 build/default/production/mcc_generated_files/delay.o
+ .debug_info      0x009e5e       0x1f23 build/default/production/mcc_generated_files/adc1.o
+ .debug_info      0x00bd81        0x316 build/default/production/main.o
+ .debug_info      0x00c097        0x969 build/default/production/lcd_ILI9341.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000       0x1202
+.debug_abbrev     0x000000       0x1272
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x102 build/default/production/mcc_generated_files/drivers/spi_master.o
  .debug_abbrev    0x000102         0x1f build/default/production/mcc_generated_files/fatfs/ffsystem.o
@@ -553,10 +561,10 @@ __FBTSEQ
  .debug_abbrev    0x000c26        0x1ce build/default/production/mcc_generated_files/spi1_driver.o
  .debug_abbrev    0x000df4         0x67 build/default/production/mcc_generated_files/delay.o
  .debug_abbrev    0x000e5b        0x174 build/default/production/mcc_generated_files/adc1.o
- .debug_abbrev    0x000fcf         0x9d build/default/production/main.o
- .debug_abbrev    0x00106c        0x196 build/default/production/lcd_ILI9341.o
+ .debug_abbrev    0x000fcf         0xe9 build/default/production/main.o
+ .debug_abbrev    0x0010b8        0x1ba build/default/production/lcd_ILI9341.o
 
-.debug_line       0x000000       0x17ca
+.debug_line       0x000000       0x182a
  *(.debug_line)
  .debug_line      0x000000        0x108 build/default/production/mcc_generated_files/drivers/spi_master.o
  .debug_line      0x000108         0x1a build/default/production/mcc_generated_files/fatfs/ffsystem.o
@@ -568,17 +576,17 @@ __FBTSEQ
  .debug_line      0x000a1d        0x152 build/default/production/mcc_generated_files/reset.o
  .debug_line      0x000b6f        0x151 build/default/production/mcc_generated_files/system.o
  .debug_line      0x000cc0        0x149 build/default/production/mcc_generated_files/traps.o
- .debug_line      0x000e09        0x11f build/default/production/mcc_generated_files/clock.o
- .debug_line      0x000f28         0x55 build/default/production/mcc_generated_files/interrupt_manager.o
- .debug_line      0x000f7d        0x10f build/default/production/mcc_generated_files/mcc.o
- .debug_line      0x00108c        0x11e build/default/production/mcc_generated_files/pin_manager.o
- .debug_line      0x0011aa        0x188 build/default/production/mcc_generated_files/spi1_driver.o
- .debug_line      0x001332         0xa6 build/default/production/mcc_generated_files/delay.o
- .debug_line      0x0013d8        0x172 build/default/production/mcc_generated_files/adc1.o
- .debug_line      0x00154a         0xf5 build/default/production/main.o
- .debug_line      0x00163f        0x18b build/default/production/lcd_ILI9341.o
+ .debug_line      0x000e09        0x121 build/default/production/mcc_generated_files/clock.o
+ .debug_line      0x000f2a         0x55 build/default/production/mcc_generated_files/interrupt_manager.o
+ .debug_line      0x000f7f        0x10f build/default/production/mcc_generated_files/mcc.o
+ .debug_line      0x00108e        0x11e build/default/production/mcc_generated_files/pin_manager.o
+ .debug_line      0x0011ac        0x188 build/default/production/mcc_generated_files/spi1_driver.o
+ .debug_line      0x001334         0xa6 build/default/production/mcc_generated_files/delay.o
+ .debug_line      0x0013da        0x172 build/default/production/mcc_generated_files/adc1.o
+ .debug_line      0x00154c        0x11f build/default/production/main.o
+ .debug_line      0x00166b        0x1bf build/default/production/lcd_ILI9341.o
 
-.debug_frame      0x000000        0xe48
+.debug_frame      0x000000        0xeb0
  *(.debug_frame)
  .debug_frame     0x000000         0x7c build/default/production/mcc_generated_files/drivers/spi_master.o
  .debug_frame     0x00007c         0x2e build/default/production/mcc_generated_files/fatfs/fatfs_demo.o
@@ -596,22 +604,22 @@ __FBTSEQ
  .debug_frame     0x000b20         0x48 build/default/production/mcc_generated_files/delay.o
  .debug_frame     0x000b68        0x166 build/default/production/mcc_generated_files/adc1.o
  .debug_frame     0x000cce         0x2e build/default/production/main.o
- .debug_frame     0x000cfc        0x14c build/default/production/lcd_ILI9341.o
+ .debug_frame     0x000cfc        0x1b4 build/default/production/lcd_ILI9341.o
 
-.debug_str        0x000000        0x5d4
+.debug_str        0x000000        0x60f
  *(.debug_str)
  .debug_str       0x000000          0xf build/default/production/mcc_generated_files/fatfs/ff.o
  .debug_str       0x00000f         0xb4 build/default/production/mcc_generated_files/sd_spi/sd_spi.o
  .debug_str       0x0000c3         0x17 build/default/production/mcc_generated_files/reset.o
  .debug_str       0x0000da         0x90 build/default/production/mcc_generated_files/system.o
  .debug_str       0x00016a         0x24 build/default/production/mcc_generated_files/traps.o
- .debug_str       0x00018e         0x44 build/default/production/mcc_generated_files/clock.o
- .debug_str       0x0001d2         0x9c build/default/production/mcc_generated_files/mcc.o
- .debug_str       0x00026e         0x20 build/default/production/mcc_generated_files/pin_manager.o
- .debug_str       0x00028e        0x107 build/default/production/mcc_generated_files/spi1_driver.o
- .debug_str       0x000395        0x217 build/default/production/mcc_generated_files/adc1.o
- .debug_str       0x0005ac          0x9 build/default/production/main.o
- .debug_str       0x0005b5         0x1f build/default/production/lcd_ILI9341.o
+ .debug_str       0x00018e         0x4f build/default/production/mcc_generated_files/clock.o
+ .debug_str       0x0001dd         0x9c build/default/production/mcc_generated_files/mcc.o
+ .debug_str       0x000279         0x20 build/default/production/mcc_generated_files/pin_manager.o
+ .debug_str       0x000299        0x107 build/default/production/mcc_generated_files/spi1_driver.o
+ .debug_str       0x0003a0        0x217 build/default/production/mcc_generated_files/adc1.o
+ .debug_str       0x0005b7         0x21 build/default/production/main.o
+ .debug_str       0x0005d8         0x37 build/default/production/lcd_ILI9341.o
 
 .debug_loc
  *(.debug_loc)
@@ -620,7 +628,7 @@ __FBTSEQ
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x7f6
+                  0x000000        0x846
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x61 build/default/production/mcc_generated_files/drivers/spi_master.o
@@ -653,9 +661,9 @@ __FBTSEQ
  .debug_pubnames
                   0x00058b        0x161 build/default/production/mcc_generated_files/adc1.o
  .debug_pubnames
-                  0x0006ec         0x1b build/default/production/main.o
+                  0x0006ec         0x2d build/default/production/main.o
  .debug_pubnames
-                  0x000707         0xef build/default/production/lcd_ILI9341.o
+                  0x000719        0x12d build/default/production/lcd_ILI9341.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -3556,7 +3564,7 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x0001c8        0xedc
+                  0x0001c8        0xf29
  .debug_pubtypes
                   0x0001c8         0x6f build/default/production/mcc_generated_files/drivers/spi_master.o
  .debug_pubtypes
@@ -3578,76 +3586,76 @@ LOAD data_init
  .debug_pubtypes
                   0x00076d         0x94 build/default/production/mcc_generated_files/traps.o
  .debug_pubtypes
-                  0x000801         0x50 build/default/production/mcc_generated_files/clock.o
+                  0x000801         0x71 build/default/production/mcc_generated_files/clock.o
  .debug_pubtypes
-                  0x000851         0x12 build/default/production/mcc_generated_files/interrupt_manager.o
+                  0x000872         0x12 build/default/production/mcc_generated_files/interrupt_manager.o
  .debug_pubtypes
-                  0x000863        0x1f1 build/default/production/mcc_generated_files/mcc.o
+                  0x000884        0x1f1 build/default/production/mcc_generated_files/mcc.o
  .debug_pubtypes
-                  0x000a54         0x80 build/default/production/mcc_generated_files/pin_manager.o
+                  0x000a75         0x80 build/default/production/mcc_generated_files/pin_manager.o
  .debug_pubtypes
-                  0x000ad4        0x2c5 build/default/production/mcc_generated_files/spi1_driver.o
+                  0x000af5        0x2c5 build/default/production/mcc_generated_files/spi1_driver.o
  .debug_pubtypes
-                  0x000d99         0x1f build/default/production/mcc_generated_files/delay.o
+                  0x000dba         0x1f build/default/production/mcc_generated_files/delay.o
  .debug_pubtypes
-                  0x000db8        0x237 build/default/production/mcc_generated_files/adc1.o
+                  0x000dd9        0x237 build/default/production/mcc_generated_files/adc1.o
  .debug_pubtypes
-                  0x000fef         0x3c build/default/production/main.o
+                  0x001010         0x5b build/default/production/main.o
  .debug_pubtypes
-                  0x00102b         0x79 build/default/production/lcd_ILI9341.o
+                  0x00106b         0x86 build/default/production/lcd_ILI9341.o
 
 __c30_signature
-                  0x0010a4         0x96
+                  0x0010f1         0x96
  __c30_signature
-                  0x0010a4          0x6 build/default/production/mcc_generated_files/drivers/spi_master.o
+                  0x0010f1          0x6 build/default/production/mcc_generated_files/drivers/spi_master.o
  __c30_signature
-                  0x0010aa          0x6 build/default/production/mcc_generated_files/fatfs/ffsystem.o
+                  0x0010f7          0x6 build/default/production/mcc_generated_files/fatfs/ffsystem.o
  __c30_signature
-                  0x0010b0          0x6 build/default/production/mcc_generated_files/fatfs/ffunicode.o
+                  0x0010fd          0x6 build/default/production/mcc_generated_files/fatfs/ffunicode.o
  __c30_signature
-                  0x0010b6          0x6 build/default/production/mcc_generated_files/fatfs/fatfs_demo.o
+                  0x001103          0x6 build/default/production/mcc_generated_files/fatfs/fatfs_demo.o
  __c30_signature
-                  0x0010bc          0x6 build/default/production/mcc_generated_files/fatfs/ff.o
+                  0x001109          0x6 build/default/production/mcc_generated_files/fatfs/ff.o
  __c30_signature
-                  0x0010c2          0x6 build/default/production/mcc_generated_files/fatfs/diskio.o
+                  0x00110f          0x6 build/default/production/mcc_generated_files/fatfs/diskio.o
  __c30_signature
-                  0x0010c8          0x6 build/default/production/mcc_generated_files/sd_spi/sd_spi.o
+                  0x001115          0x6 build/default/production/mcc_generated_files/sd_spi/sd_spi.o
  __c30_signature
-                  0x0010ce          0x6 build/default/production/mcc_generated_files/reset.o
+                  0x00111b          0x6 build/default/production/mcc_generated_files/reset.o
  __c30_signature
-                  0x0010d4          0x6 build/default/production/mcc_generated_files/system.o
+                  0x001121          0x6 build/default/production/mcc_generated_files/system.o
  __c30_signature
-                  0x0010da          0x6 build/default/production/mcc_generated_files/traps.o
+                  0x001127          0x6 build/default/production/mcc_generated_files/traps.o
  __c30_signature
-                  0x0010e0          0x6 build/default/production/mcc_generated_files/clock.o
+                  0x00112d          0x6 build/default/production/mcc_generated_files/clock.o
  __c30_signature
-                  0x0010e6          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
+                  0x001133          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
  __c30_signature
-                  0x0010ec          0x6 build/default/production/mcc_generated_files/mcc.o
+                  0x001139          0x6 build/default/production/mcc_generated_files/mcc.o
  __c30_signature
-                  0x0010f2          0x6 build/default/production/mcc_generated_files/pin_manager.o
+                  0x00113f          0x6 build/default/production/mcc_generated_files/pin_manager.o
  __c30_signature
-                  0x0010f8          0x6 build/default/production/mcc_generated_files/spi1_driver.o
+                  0x001145          0x6 build/default/production/mcc_generated_files/spi1_driver.o
  __c30_signature
-                  0x0010fe          0x6 build/default/production/mcc_generated_files/delay.o
+                  0x00114b          0x6 build/default/production/mcc_generated_files/delay.o
  __c30_signature
-                  0x001104          0x6 build/default/production/mcc_generated_files/adc1.o
+                  0x001151          0x6 build/default/production/mcc_generated_files/adc1.o
  __c30_signature
-                  0x00110a          0x6 build/default/production/main.o
+                  0x001157          0x6 build/default/production/main.o
  __c30_signature
-                  0x001110          0x6 build/default/production/lcd_ILI9341.o
+                  0x00115d          0x6 build/default/production/lcd_ILI9341.o
  __c30_signature
-                  0x001116          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt0_extendedch.o)
+                  0x001163          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt0_extendedch.o)
  __c30_signature
-                  0x00111c          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(data_init_extendedch.o)
+                  0x001169          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(data_init_extendedch.o)
  __c30_signature
-                  0x001122          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(delay32ch.Leo)
+                  0x00116f          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(delay32ch.Leo)
  __c30_signature
-                  0x001128          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(udivsi3.cheo)
+                  0x001175          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libm-elf.a(udivsi3.cheo)
  __c30_signature
-                  0x00112e          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-c-elf.a(memcpy.CH_eo)
+                  0x00117b          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-c-elf.a(memcpy.CH_eo)
  __c30_signature
-                  0x001134          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-c-elf.a(memset.CH_eo)
+                  0x001181          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-c-elf.a(memset.CH_eo)
 
 .nbss               0x1000         0x1e
  .nbss              0x1000         0x12 build/default/production/mcc_generated_files/sd_spi/sd_spi.o
@@ -3760,118 +3768,123 @@ __c30_signature
 .config_BSLIM     0x02bf10          0x2
  .config_BSLIM    0x02bf10          0x2 build/default/production/mcc_generated_files/mcc.o
 
-.const              0x83f2        0x218 load address 0x0003f2  
- .const             0x83f2         0xa0 build/default/production/mcc_generated_files/sd_spi/sd_spi.o
- .const             0x8492         0x9a build/default/production/mcc_generated_files/fatfs/ff.o
- .const             0x852c         0x70 build/default/production/lcd_ILI9341.o
- .const             0x859c         0x3c build/default/production/mcc_generated_files/drivers/spi_master.o
-                    0x859c                  _spiMaster
- .const             0x85d8         0x1a build/default/production/mcc_generated_files/fatfs/fatfs_demo.o
- .const             0x85f2         0x18 build/default/production/mcc_generated_files/spi1_driver.o
+.const              0x83f2       0x7748 load address 0x0003f2  
+ .const             0x83f2       0x7530 build/default/production/main.o
+                    0x83f2                  _rose_logo_img
+ .const             0xf922         0xa0 build/default/production/mcc_generated_files/sd_spi/sd_spi.o
+ .const             0xf9c2         0x9a build/default/production/mcc_generated_files/fatfs/ff.o
+ .const             0xfa5c         0x70 build/default/production/lcd_ILI9341.o
+ .const             0xfacc         0x3c build/default/production/mcc_generated_files/drivers/spi_master.o
+                    0xfacc                  _spiMaster
+ .const             0xfb08         0x1a build/default/production/mcc_generated_files/fatfs/fatfs_demo.o
+ .const             0xfb22         0x18 build/default/production/mcc_generated_files/spi1_driver.o
 
-.text             0x00060a       0x3600
- .text            0x00060a       0x2398 build/default/production/mcc_generated_files/fatfs/ff.o
-                  0x001f2e                  _f_mount
-                  0x001f94                  _f_open
-                  0x00228c                  _f_read
-                  0x002510                  _f_write
-                  0x002812                  _f_sync
-                  0x0028ec                  _f_close
-                  0x002916                  _f_chdrive
-                  0x002936                  _f_chdir
- .text            0x0029a2        0xa54 build/default/production/mcc_generated_files/sd_spi/sd_spi.o
-                  0x0029a2                  _SD_SPI_IsMediaPresent
-                  0x0029b8                  _SD_SPI_GetSectorSize
-                  0x0029c0                  _SD_SPI_GetSectorCount
-                  0x0029ca                  _SD_SPI_SectorRead
-                  0x002a36                  _SD_SPI_SectorWrite
-                  0x002aa2                  _SD_SPI_IsMediaInitialized
-                  0x002ab4                  _SD_SPI_IsWriteProtected
-                  0x002aec                  _SD_SPI_MediaInitialize
- .text            0x0033f6        0x19c build/default/production/lcd_ILI9341.o
-                  0x0033f6                  _LCD_SPI_Start_
-                  0x00340e                  _LCD_SPI_End_
-                  0x00341e                  _LCD_SPI_CmdMode
-                  0x00342a                  _LCD_SPI_DataMode
-                  0x003436                  _LCD_Begin
-                  0x003482                  _LCD_sendCommand
-                  0x0034ba                  _LCD_writeByte
-                  0x0034d8                  _LCD_writeWord
-                  0x003506                  _LCD_writeCommand
-                  0x003516                  _LCD_setAddress
-                  0x003552                  _LCD_WritePixel
-                  0x00357c                  _LCD_Invert
- .text            0x003592        0x172 build/default/production/mcc_generated_files/adc1.o
-                  0x003592                  _ADC1_Initialize
-                  0x00362c                  _ADC1_Core0PowerEnable
-                  0x003642                  _ADC1_Core1PowerEnable
-                  0x003658                  _ADC1_SharedCorePowerEnable
-                  0x00366e                  _ADC1_CallBack
-                  0x003674                  _ADC1_SetCommonInterruptHandler
-                  0x003680                  _ADC1_Tasks
-                  0x00369c                  _ADC1_LCD_YP_CallBack
-                  0x0036a4                  _ADC1_SetLCD_YPInterruptHandler
-                  0x0036b0                  _ADC1_LCD_YP_Tasks
-                  0x0036d0                  _ADC1_LCD_XM_CallBack
-                  0x0036d8                  _ADC1_SetLCD_XMInterruptHandler
-                  0x0036e4                  _ADC1_LCD_XM_Tasks
- .text            0x003704        0x146 build/default/production/mcc_generated_files/spi1_driver.o
-                  0x003704                  _spi1_close
-                  0x00370c                  _spi1_open
-                  0x003762                  _spi1_exchangeByte
-                  0x00377c                  _spi1_exchangeBlock
-                  0x0037ae                  _spi1_writeBlock
-                  0x0037dc                  _spi1_readBlock
-                  0x00380c                  _spi1_writeByte
-                  0x003818                  _spi1_readByte
-                  0x003822                  _spi1_isr
-                  0x00383e                  _spi1_setSpiISR
- .text            0x00384a        0x114 build/default/production/mcc_generated_files/reset.o
-                  0x00384a                  _RESET_GetCause
-                  0x003852                  _RESET_CauseHandler
-                  0x003956                  _RESET_CauseClearAll
- .text            0x00395e         0xf8 build/default/production/mcc_generated_files/fatfs/diskio.o
-                  0x00395e                  _disk_status
-                  0x00399a                  _disk_initialize
-                  0x0039c4                  _disk_read
-                  0x0039fe                  _disk_write
-                  0x003a38                  _disk_ioctl
- .text            0x003a56         0x6c build/default/production/mcc_generated_files/clock.o
-                  0x003a56                  _CLOCK_Initialize
-                  0x003aaa                  _CLOCK_AuxPllLockStatusGet
- .text            0x003ac2         0x5a build/default/production/mcc_generated_files/fatfs/fatfs_demo.o
-                  0x003ac2                  _FatFsDemo_Tasks
- .text            0x003b1c         0x56 build/default/production/mcc_generated_files/delay.o
-                  0x003b1c                  _DELAY_milliseconds
-                  0x003b3e                  _DELAY_microseconds
- .text            0x003b72         0x54 build/default/production/mcc_generated_files/pin_manager.o
-                  0x003b72                  _PIN_MANAGER_Initialize
- .text            0x003bc6         0x44 build/default/production/mcc_generated_files/drivers/spi_master.o
-                  0x003bc6                  _SDFAST_open
-                  0x003bd0                  _LCD_open
-                  0x003bda                  _SDSLOW_open
-                  0x003be4                  _spi_master_open
+.text             0x007b3a       0x3770
+ .text            0x007b3a       0x2398 build/default/production/mcc_generated_files/fatfs/ff.o
+                  0x00945e                  _f_mount
+                  0x0094c4                  _f_open
+                  0x0097bc                  _f_read
+                  0x009a40                  _f_write
+                  0x009d42                  _f_sync
+                  0x009e1c                  _f_close
+                  0x009e46                  _f_chdrive
+                  0x009e66                  _f_chdir
+ .text            0x009ed2        0xa54 build/default/production/mcc_generated_files/sd_spi/sd_spi.o
+                  0x009ed2                  _SD_SPI_IsMediaPresent
+                  0x009ee8                  _SD_SPI_GetSectorSize
+                  0x009ef0                  _SD_SPI_GetSectorCount
+                  0x009efa                  _SD_SPI_SectorRead
+                  0x009f66                  _SD_SPI_SectorWrite
+                  0x009fd2                  _SD_SPI_IsMediaInitialized
+                  0x009fe4                  _SD_SPI_IsWriteProtected
+                  0x00a01c                  _SD_SPI_MediaInitialize
+ .text            0x00a926        0x2a6 build/default/production/lcd_ILI9341.o
+                  0x00a93a                  _LCD_SPI_Start_
+                  0x00a952                  _LCD_SPI_End_
+                  0x00a962                  _LCD_SPI_CmdMode
+                  0x00a96e                  _LCD_SPI_DataMode
+                  0x00a97a                  _LCD_Begin
+                  0x00a9ce                  _LCD_sendCommand
+                  0x00aa0a                  _LCD_writeByte
+                  0x00aa28                  _LCD_writeWord
+                  0x00aa56                  _LCD_writeCommand
+                  0x00aa66                  _LCD_setAddressWindow
+                  0x00aaa2                  _LCD_writeColor
+                  0x00aad4                  _LCD_WritePixel
+                  0x00aafe                  _LCD_FillRect
+                  0x00ab56                  _LCD_WriteBitmap
+                  0x00abb6                  _LCD_Invert
+ .text            0x00abcc        0x172 build/default/production/mcc_generated_files/adc1.o
+                  0x00abcc                  _ADC1_Initialize
+                  0x00ac66                  _ADC1_Core0PowerEnable
+                  0x00ac7c                  _ADC1_Core1PowerEnable
+                  0x00ac92                  _ADC1_SharedCorePowerEnable
+                  0x00aca8                  _ADC1_CallBack
+                  0x00acae                  _ADC1_SetCommonInterruptHandler
+                  0x00acba                  _ADC1_Tasks
+                  0x00acd6                  _ADC1_LCD_YP_CallBack
+                  0x00acde                  _ADC1_SetLCD_YPInterruptHandler
+                  0x00acea                  _ADC1_LCD_YP_Tasks
+                  0x00ad0a                  _ADC1_LCD_XM_CallBack
+                  0x00ad12                  _ADC1_SetLCD_XMInterruptHandler
+                  0x00ad1e                  _ADC1_LCD_XM_Tasks
+ .text            0x00ad3e        0x146 build/default/production/mcc_generated_files/spi1_driver.o
+                  0x00ad3e                  _spi1_close
+                  0x00ad46                  _spi1_open
+                  0x00ad9c                  _spi1_exchangeByte
+                  0x00adb6                  _spi1_exchangeBlock
+                  0x00ade8                  _spi1_writeBlock
+                  0x00ae16                  _spi1_readBlock
+                  0x00ae46                  _spi1_writeByte
+                  0x00ae52                  _spi1_readByte
+                  0x00ae5c                  _spi1_isr
+                  0x00ae78                  _spi1_setSpiISR
+ .text            0x00ae84        0x114 build/default/production/mcc_generated_files/reset.o
+                  0x00ae84                  _RESET_GetCause
+                  0x00ae8c                  _RESET_CauseHandler
+                  0x00af90                  _RESET_CauseClearAll
+ .text            0x00af98         0xf8 build/default/production/mcc_generated_files/fatfs/diskio.o
+                  0x00af98                  _disk_status
+                  0x00afd4                  _disk_initialize
+                  0x00affe                  _disk_read
+                  0x00b038                  _disk_write
+                  0x00b072                  _disk_ioctl
+ .text            0x00b090         0x82 build/default/production/mcc_generated_files/clock.o
+                  0x00b090                  _CLOCK_Initialize
+                  0x00b0fa                  _CLOCK_AuxPllLockStatusGet
+ .text            0x00b112         0x5a build/default/production/mcc_generated_files/fatfs/fatfs_demo.o
+                  0x00b112                  _FatFsDemo_Tasks
+ .text            0x00b16c         0x56 build/default/production/mcc_generated_files/delay.o
+                  0x00b16c                  _DELAY_milliseconds
+                  0x00b18e                  _DELAY_microseconds
+ .text            0x00b1c2         0x54 build/default/production/mcc_generated_files/pin_manager.o
+                  0x00b1c2                  _PIN_MANAGER_Initialize
+ .text            0x00b216         0x50 build/default/production/main.o
+                  0x00b216                  _main
+ .text            0x00b266         0x44 build/default/production/mcc_generated_files/drivers/spi_master.o
+                  0x00b266                  _SDFAST_open
+                  0x00b270                  _LCD_open
+                  0x00b27a                  _SDSLOW_open
+                  0x00b284                  _spi_master_open
 
-.dinit            0x003c0a         0x3c
- .dinit           0x003c0a         0x3c data_init
+.dinit            0x00b2aa         0x3c
+ .dinit           0x00b2aa         0x3c data_init
 
-.text             0x003c46         0x52
- .text            0x003c46         0x32 build/default/production/mcc_generated_files/system.o
-                  0x003c64                  _SYSTEM_Initialize
- .text            0x003c78         0x20 build/default/production/mcc_generated_files/mcc.o
-                  0x003c78                  _OSCILLATOR_Initialize
-                  0x003c80                  _SYSTEM_GetResetCause
-                  0x003c88                  _SYSTEM_ResetCauseHandler
-                  0x003c90                  _SYSTEM_ResetCauseClearAll
+.text             0x00b2e6         0x52
+ .text            0x00b2e6         0x32 build/default/production/mcc_generated_files/system.o
+                  0x00b304                  _SYSTEM_Initialize
+ .text            0x00b318         0x20 build/default/production/mcc_generated_files/mcc.o
+                  0x00b318                  _OSCILLATOR_Initialize
+                  0x00b320                  _SYSTEM_GetResetCause
+                  0x00b328                  _SYSTEM_ResetCauseHandler
+                  0x00b330                  _SYSTEM_ResetCauseClearAll
 
-.init.delay32     0x003c98         0x1c
- .init.delay32    0x003c98         0x1c c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(delay32ch.Leo)
-                  0x003c98                  ___delay32
+.init.delay32     0x00b338         0x1c
+ .init.delay32    0x00b338         0x1c c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(delay32ch.Leo)
+                  0x00b338                  ___delay32
 
-.text             0x003cb4         0x2a
- .text            0x003cb4         0x16 build/default/production/mcc_generated_files/traps.o
-                  0x003cb4                  _TRAPS_halt_on_error
- .text            0x003cca          0xe build/default/production/main.o
-                  0x003cca                  _main
- .text            0x003cd8          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
-                  0x003cd8                  _INTERRUPT_Initialize
+.text             0x00b354         0x1c
+ .text            0x00b354         0x16 build/default/production/mcc_generated_files/traps.o
+                  0x00b354                  _TRAPS_halt_on_error
+ .text            0x00b36a          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
+                  0x00b36a                  _INTERRUPT_Initialize
