@@ -46,14 +46,14 @@
 #include "clock.h"
 #include "system.h"
 #include "system_types.h"
-#include "drivers/spi_master.h"
 #include "delay.h"
+#include "adc1.h"
 #include "spi1_driver.h"
+#include "fatfs/ff.h"
 #include "sd_spi/sd_spi.h"
+#include "drivers/spi_master.h"
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "adc1.h"
-#include "fatfs/ff.h"
 
 void SYSTEM_Initialize(void)
 {

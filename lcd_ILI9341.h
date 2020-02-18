@@ -9,6 +9,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "mcc_generated_files/fatfs/ff.h"
 
 #ifndef LCD_ILI9341_H
 #define	LCD_ILI9341_H
@@ -106,6 +107,7 @@ void LCD_Begin(void);
 void LCD_WritePixel(uint16_t x, uint16_t y, uint16_t color);
 
 // Fills a rectangle on the screen
+// Currently does not handle clipping
 void LCD_FillRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color);
 
 // Fill the whole screen with a color
@@ -119,7 +121,17 @@ static inline void LCD_ClearScreen() {
 }
 
 // Writes a bitmap to the screen at the specified location
+// Currently does not handle clipping
 void LCD_WriteBitmap(uint16_t* pixels, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+
+// Writes a bitmap file to the screen at the specified location
+// This MUST be in 16 bit 5-6-5 bottom-to-top format or it will not work
+// Here is a good website for converting: https://online-converting.com/image/convert2bmp/
+// This function supports clipping the bitmap
+bool LCD_WriteBitmapFile(FIL* file, uint16_t x, uint16_t y);
+
+// Writes a bitmap with specified scaling at the specified location
+void LCD_WriteBitmapScaled(uint16_t* pixels, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t scaling);
 
 // Inverts the display
 void LCD_Invert(bool invert);

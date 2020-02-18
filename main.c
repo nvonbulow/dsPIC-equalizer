@@ -46,20 +46,47 @@
   Section: Included Files
 */
 #include "mcc_generated_files/system.h"
-#include "mcc_generated_files/fatfs/fatfs_demo.h"
 #include "mcc_generated_files/pin_manager.h"
 #include "mcc_generated_files/delay.h"
+#include "mcc_generated_files/fatfs/ff.h"
+#include "mcc_generated_files/sd_spi/sd_spi.h"
+
 #include "lcd_ILI9341.h"
 
-#include "images/rose_logo.h"
+// #include "images/rose_logo.h"
+
+bool SD_OpenDrive(FATFS* drive) {
+    if( SD_SPI_IsMediaPresent() == false) {
+        return false;
+    }
+
+    if (f_mount(drive, "0:", 1) == FR_OK) {
+        return true;
+    }
+    return false;
+}
+
+bool SD_CloseDrive() {
+    if(!f_mount(0,"0:",0)) {
+        return false;
+    }
+    return true;
+}
 
 /*
                          Main application
  */
 int main(void) {
     bool bmp_written = false;
+    FATFS drive;
+    FIL file;
+    UINT result;
     // initialize the device
     SYSTEM_Initialize();
+    if(!SD_OpenDrive(&drive)) {
+        IO_LED_SetHigh();
+        while(1);
+    }
     LCD_Begin();
     DELAY_milliseconds(5);
     
@@ -68,15 +95,20 @@ int main(void) {
         
         if(IO_PB_GetValue() == 0) {
             if(bmp_written) {
-                LCD_FillRect(0, 0, 100, 150, ILI9341_BLACK);
+                LCD_FillScreen(ILI9341_BLACK);
                 DELAY_milliseconds(50);
-                IO_LED_SetLow();
                 bmp_written = false;
             }
             else {
-                LCD_WriteBitmap((uint16_t*)rose_logo_img, 0, 0, 100, 150);
+                //LCD_WriteBitmapScaled((uint16_t*)rose_logo_img, 0, 0, 100, 150, 2);
+                if((result = f_open(&file, "LOGO.BMP", FA_READ)) != FR_OK) {
+                    IO_LED_SetHigh();
+                    continue;
+                }
+                IO_LED_SetLow();
+                LCD_WriteBitmapFile(&file, 0, (320-185)/2);
+                f_close(&file);
                 DELAY_milliseconds(50);
-                IO_LED_SetHigh();
                 bmp_written = true;
             }
         }

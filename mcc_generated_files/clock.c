@@ -50,12 +50,12 @@ void CLOCK_Initialize(void)
 {
     // FRCDIV FRC/1; PLLPRE 1; DOZE 1:8; DOZEN disabled; ROI disabled; 
     CLKDIV = 0x3001;
-    // PLLFBDIV 200; 
-    PLLFBD = 0xC8;
+    // PLLFBDIV 80; 
+    PLLFBD = 0x50;
     // TUN Center frequency; 
     OSCTUN = 0x00;
-    // POST1DIV 1:2; VCODIV FVCO/2; POST2DIV 1:2; 
-    PLLDIV = 0x222;
+    // POST1DIV 1:2; VCODIV FVCO/2; POST2DIV 1:1; 
+    PLLDIV = 0x221;
     // APLLEN enabled; FRCSEL Primary Oscillator; APLLPRE 1:1; 
     ACLKCON1 = 0x8001;
     // APLLFBDIV 50; 
