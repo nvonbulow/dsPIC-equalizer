@@ -90,7 +90,7 @@
  */
 typedef enum 
 {
-    LCD_YP,//Channel Name:AN7   Assigned to:Shared Channel
+    LCD_YN,//Channel Name:AN7   Assigned to:Shared Channel
     LCD_XM,//Channel Name:AN8   Assigned to:Shared Channel
 } ADC1_CHANNEL;
 
@@ -382,7 +382,7 @@ inline static uint16_t ADC1_ConversionResultGet( ADC1_CHANNEL channel )
 
     switch(channel)
     {
-        case LCD_YP:
+        case LCD_YN:
                 result = ADCBUF7;
                 break;
         case LCD_XM:
@@ -437,7 +437,7 @@ inline static bool ADC1_IsConversionComplete(ADC1_CHANNEL channel)
 
     switch(channel)
     {
-        case LCD_YP:
+        case LCD_YN:
                 status = ADSTATLbits.AN7RDY;
                 break;
         case LCD_XM:
@@ -653,7 +653,7 @@ inline static void ADC1_IndividualChannelInterruptEnable(ADC1_CHANNEL channel)
 {
     switch(channel)
     {
-        case LCD_YP:
+        case LCD_YN:
                 IEC6bits.ADCAN7IE = 1;
                 break;
         case LCD_XM:
@@ -690,7 +690,7 @@ inline static void ADC1_IndividualChannelInterruptDisable(ADC1_CHANNEL channel)
 {
     switch(channel)
     {
-        case LCD_YP:
+        case LCD_YN:
                 IEC6bits.ADCAN7IE = 0;
                 break;
         case LCD_XM:
@@ -726,7 +726,7 @@ inline static void ADC1_IndividualChannelInterruptFlagClear(ADC1_CHANNEL channel
 {
     switch(channel)
     {
-        case LCD_YP:
+        case LCD_YN:
                 IFS6bits.ADCAN7IF = 0;
                 break;
         case LCD_XM:
@@ -739,10 +739,10 @@ inline static void ADC1_IndividualChannelInterruptFlagClear(ADC1_CHANNEL channel
 
 /**
   @Summary
-    ADC1 LCD_YP callback routine.
+    ADC1 LCD_YN callback routine.
 
   @Description
-    This routine is a ADC1 LCD_YP callback function.
+    This routine is a ADC1 LCD_YN callback function.
   
   @Preconditions
     None.
@@ -755,17 +755,17 @@ inline static void ADC1_IndividualChannelInterruptFlagClear(ADC1_CHANNEL channel
  
   @Example 
     <code>
-        ADC1_SetLCD_YPInterruptHandler(&ADC1_LCD_YP_CallBack);
+        ADC1_SetLCD_YNInterruptHandler(&ADC1_LCD_YN_CallBack);
     </code>
 */
-void ADC1_LCD_YP_CallBack(uint16_t adcVal);
+void ADC1_LCD_YN_CallBack(uint16_t adcVal);
 
 /**
   @Summary
-    Assigns a function pointer with a ADC1 LCD_YP callback address.
+    Assigns a function pointer with a ADC1 LCD_YN callback address.
 
   @Description
-    This routine assigns a function pointer with a ADC1 LCD_YP callback address.
+    This routine assigns a function pointer with a ADC1 LCD_YN callback address.
   
   @Preconditions
     None.
@@ -778,17 +778,17 @@ void ADC1_LCD_YP_CallBack(uint16_t adcVal);
  
   @Example 
     <code>
-        ADC1_SetLCD_YPInterruptHandler(&ADC1_LCD_YP_CallBack);
+        ADC1_SetLCD_YNInterruptHandler(&ADC1_LCD_YN_CallBack);
     </code>
 */
-void ADC1_SetLCD_YPInterruptHandler(void* handler);
+void ADC1_SetLCD_YNInterruptHandler(void* handler);
 
 /**
   @Summary
     Polled implementation
 
   @Description
-    This routine is used to implement the tasks for ADC1 LCD_YP polled implementations.
+    This routine is used to implement the tasks for ADC1 LCD_YN polled implementations.
   
   @Preconditions
     ADC1_Initialize() function should have been 
@@ -802,10 +802,10 @@ void ADC1_SetLCD_YPInterruptHandler(void* handler);
  
   @Example
     <code>    
-        ADC1_LCD_YP_Tasks();
+        ADC1_LCD_YN_Tasks();
     </code>
 */
-void ADC1_LCD_YP_Tasks(void);
+void ADC1_LCD_YN_Tasks(void);
 
 /**
   @Summary

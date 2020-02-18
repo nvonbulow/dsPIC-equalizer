@@ -56,152 +56,6 @@
 */
 /**
   @Summary
-    Sets the GPIO pin, RA0, high using LATA0.
-
-  @Description
-    Sets the GPIO pin, RA0, high using LATA0.
-
-  @Preconditions
-    The RA0 must be set to an output.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Set RA0 high (1)
-    IO_PB_SetHigh();
-    </code>
-
-*/
-#define IO_PB_SetHigh()          (_LATA0 = 1)
-/**
-  @Summary
-    Sets the GPIO pin, RA0, low using LATA0.
-
-  @Description
-    Sets the GPIO pin, RA0, low using LATA0.
-
-  @Preconditions
-    The RA0 must be set to an output.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Set RA0 low (0)
-    IO_PB_SetLow();
-    </code>
-
-*/
-#define IO_PB_SetLow()           (_LATA0 = 0)
-/**
-  @Summary
-    Toggles the GPIO pin, RA0, using LATA0.
-
-  @Description
-    Toggles the GPIO pin, RA0, using LATA0.
-
-  @Preconditions
-    The RA0 must be set to an output.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Toggle RA0
-    IO_PB_Toggle();
-    </code>
-
-*/
-#define IO_PB_Toggle()           (_LATA0 ^= 1)
-/**
-  @Summary
-    Reads the value of the GPIO pin, RA0.
-
-  @Description
-    Reads the value of the GPIO pin, RA0.
-
-  @Preconditions
-    None.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    uint16_t portValue;
-
-    // Read RA0
-    postValue = IO_PB_GetValue();
-    </code>
-
-*/
-#define IO_PB_GetValue()         _RA0
-/**
-  @Summary
-    Configures the GPIO pin, RA0, as an input.
-
-  @Description
-    Configures the GPIO pin, RA0, as an input.
-
-  @Preconditions
-    None.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Sets the RA0 as an input
-    IO_PB_SetDigitalInput();
-    </code>
-
-*/
-#define IO_PB_SetDigitalInput()  (_TRISA0 = 1)
-/**
-  @Summary
-    Configures the GPIO pin, RA0, as an output.
-
-  @Description
-    Configures the GPIO pin, RA0, as an output.
-
-  @Preconditions
-    None.
-
-  @Returns
-    None.
-
-  @Param
-    None.
-
-  @Example
-    <code>
-    // Sets the RA0 as an output
-    IO_PB_SetDigitalOutput();
-    </code>
-
-*/
-#define IO_PB_SetDigitalOutput() (_TRISA0 = 0)
-/**
-  @Summary
     Sets the GPIO pin, RA1, high using LATA1.
 
   @Description
@@ -219,11 +73,11 @@
   @Example
     <code>
     // Set RA1 high (1)
-    IO_LED_SetHigh();
+    AUDIO_IN_SetHigh();
     </code>
 
 */
-#define IO_LED_SetHigh()          (_LATA1 = 1)
+#define AUDIO_IN_SetHigh()          (_LATA1 = 1)
 /**
   @Summary
     Sets the GPIO pin, RA1, low using LATA1.
@@ -243,11 +97,11 @@
   @Example
     <code>
     // Set RA1 low (0)
-    IO_LED_SetLow();
+    AUDIO_IN_SetLow();
     </code>
 
 */
-#define IO_LED_SetLow()           (_LATA1 = 0)
+#define AUDIO_IN_SetLow()           (_LATA1 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RA1, using LATA1.
@@ -267,11 +121,11 @@
   @Example
     <code>
     // Toggle RA1
-    IO_LED_Toggle();
+    AUDIO_IN_Toggle();
     </code>
 
 */
-#define IO_LED_Toggle()           (_LATA1 ^= 1)
+#define AUDIO_IN_Toggle()           (_LATA1 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RA1.
@@ -293,11 +147,11 @@
     uint16_t portValue;
 
     // Read RA1
-    postValue = IO_LED_GetValue();
+    postValue = AUDIO_IN_GetValue();
     </code>
 
 */
-#define IO_LED_GetValue()         _RA1
+#define AUDIO_IN_GetValue()         _RA1
 /**
   @Summary
     Configures the GPIO pin, RA1, as an input.
@@ -317,11 +171,11 @@
   @Example
     <code>
     // Sets the RA1 as an input
-    IO_LED_SetDigitalInput();
+    AUDIO_IN_SetDigitalInput();
     </code>
 
 */
-#define IO_LED_SetDigitalInput()  (_TRISA1 = 1)
+#define AUDIO_IN_SetDigitalInput()  (_TRISA1 = 1)
 /**
   @Summary
     Configures the GPIO pin, RA1, as an output.
@@ -341,11 +195,11 @@
   @Example
     <code>
     // Sets the RA1 as an output
-    IO_LED_SetDigitalOutput();
+    AUDIO_IN_SetDigitalOutput();
     </code>
 
 */
-#define IO_LED_SetDigitalOutput() (_TRISA1 = 0)
+#define AUDIO_IN_SetDigitalOutput() (_TRISA1 = 0)
 /**
   @Summary
     Sets the GPIO pin, RB10, high using LATB10.
@@ -1095,11 +949,11 @@
   @Example
     <code>
     // Set RB2 high (1)
-    LCD_YP_SetHigh();
+    LCD_YN_SetHigh();
     </code>
 
 */
-#define LCD_YP_SetHigh()          (_LATB2 = 1)
+#define LCD_YN_SetHigh()          (_LATB2 = 1)
 /**
   @Summary
     Sets the GPIO pin, RB2, low using LATB2.
@@ -1119,11 +973,11 @@
   @Example
     <code>
     // Set RB2 low (0)
-    LCD_YP_SetLow();
+    LCD_YN_SetLow();
     </code>
 
 */
-#define LCD_YP_SetLow()           (_LATB2 = 0)
+#define LCD_YN_SetLow()           (_LATB2 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RB2, using LATB2.
@@ -1143,11 +997,11 @@
   @Example
     <code>
     // Toggle RB2
-    LCD_YP_Toggle();
+    LCD_YN_Toggle();
     </code>
 
 */
-#define LCD_YP_Toggle()           (_LATB2 ^= 1)
+#define LCD_YN_Toggle()           (_LATB2 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RB2.
@@ -1169,11 +1023,11 @@
     uint16_t portValue;
 
     // Read RB2
-    postValue = LCD_YP_GetValue();
+    postValue = LCD_YN_GetValue();
     </code>
 
 */
-#define LCD_YP_GetValue()         _RB2
+#define LCD_YN_GetValue()         _RB2
 /**
   @Summary
     Configures the GPIO pin, RB2, as an input.
@@ -1193,11 +1047,11 @@
   @Example
     <code>
     // Sets the RB2 as an input
-    LCD_YP_SetDigitalInput();
+    LCD_YN_SetDigitalInput();
     </code>
 
 */
-#define LCD_YP_SetDigitalInput()  (_TRISB2 = 1)
+#define LCD_YN_SetDigitalInput()  (_TRISB2 = 1)
 /**
   @Summary
     Configures the GPIO pin, RB2, as an output.
@@ -1217,11 +1071,11 @@
   @Example
     <code>
     // Sets the RB2 as an output
-    LCD_YP_SetDigitalOutput();
+    LCD_YN_SetDigitalOutput();
     </code>
 
 */
-#define LCD_YP_SetDigitalOutput() (_TRISB2 = 0)
+#define LCD_YN_SetDigitalOutput() (_TRISB2 = 0)
 /**
   @Summary
     Sets the GPIO pin, RB3, high using LATB3.

@@ -53,7 +53,7 @@
 */
 
 static void (*ADC1_CommonDefaultInterruptHandler)(void);
-static void (*ADC1_LCD_YPDefaultInterruptHandler)(uint16_t adcVal);
+static void (*ADC1_LCD_YNDefaultInterruptHandler)(uint16_t adcVal);
 static void (*ADC1_LCD_XMDefaultInterruptHandler)(uint16_t adcVal);
 
 /**
@@ -157,7 +157,7 @@ void ADC1_Initialize (void)
 	
     //Assign Default Callbacks
     ADC1_SetCommonInterruptHandler(&ADC1_CallBack);
-    ADC1_SetLCD_YPInterruptHandler(&ADC1_LCD_YP_CallBack);
+    ADC1_SetLCD_YNInterruptHandler(&ADC1_LCD_YN_CallBack);
     ADC1_SetLCD_XMInterruptHandler(&ADC1_LCD_XM_CallBack);
     
 
@@ -168,8 +168,8 @@ void ADC1_Initialize (void)
     // Enabling Power for the Shared Core
     ADC1_SharedCorePowerEnable();
 
-    //TRGSRC0 None; TRGSRC1 None; 
-    ADTRIG0L = 0x00;
+    //TRGSRC0 PTG; TRGSRC1 None; 
+    ADTRIG0L = 0x1E;
     //TRGSRC3 None; TRGSRC2 None; 
     ADTRIG0H = 0x00;
     //TRGSRC4 None; TRGSRC5 None; 
@@ -230,31 +230,31 @@ void __attribute__ ((weak)) ADC1_Tasks ( void )
     }
 }
 
-void __attribute__ ((weak)) ADC1_LCD_YP_CallBack( uint16_t adcVal )
+void __attribute__ ((weak)) ADC1_LCD_YN_CallBack( uint16_t adcVal )
 { 
 
 }
 
-void ADC1_SetLCD_YPInterruptHandler(void* handler)
+void ADC1_SetLCD_YNInterruptHandler(void* handler)
 {
-    ADC1_LCD_YPDefaultInterruptHandler = handler;
+    ADC1_LCD_YNDefaultInterruptHandler = handler;
 }
 
-void __attribute__ ((weak)) ADC1_LCD_YP_Tasks ( void )
+void __attribute__ ((weak)) ADC1_LCD_YN_Tasks ( void )
 {
-    uint16_t valLCD_YP;
+    uint16_t valLCD_YN;
 
     if(IFS6bits.ADCAN7IF)
     {
         //Read the ADC value from the ADCBUF
-        valLCD_YP = ADCBUF7;
+        valLCD_YN = ADCBUF7;
 
-        if(ADC1_LCD_YPDefaultInterruptHandler) 
+        if(ADC1_LCD_YNDefaultInterruptHandler) 
         { 
-            ADC1_LCD_YPDefaultInterruptHandler(valLCD_YP); 
+            ADC1_LCD_YNDefaultInterruptHandler(valLCD_YN); 
         }
 
-        //clear the LCD_YP interrupt flag
+        //clear the LCD_YN interrupt flag
         IFS6bits.ADCAN7IF = 0;
     }
 }

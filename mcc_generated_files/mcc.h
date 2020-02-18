@@ -56,6 +56,8 @@
 #include "traps.h"
 #include "reset.h"
 #include "sd_spi/sd_spi.h"
+#include "ptg.h"
+#include "cmp1.h"
 #include "delay.h"
 #include "fatfs/ff.h"
 #include "spi1_driver.h"
