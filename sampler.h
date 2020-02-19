@@ -16,7 +16,9 @@ extern "C" {
 #define SAMPLER_BUFFER_COUNT 2
 // Sets the size of the sample buffers
 #define SAMPLER_BUFFER_SIZE 1024
-    
+
+// Marked as volatile because the DMA controller writes to these
+// The ADC input buffers
 extern volatile uint16_t sample_buffer[SAMPLER_BUFFER_COUNT][SAMPLER_BUFFER_SIZE];
 
 // The default sampling rate

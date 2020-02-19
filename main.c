@@ -45,22 +45,21 @@
 /**
   Section: Included Files
 */
-#include "mcc_generated_files/adc1.h"
+#include <math.h>
+
 #include "mcc_generated_files/delay.h"
-#include "mcc_generated_files/dma.h"
-#include "mcc_generated_files/fatfs/ff.h"
 #include "mcc_generated_files/pin_manager.h"
-#include "mcc_generated_files/ptg.h"
-#include "mcc_generated_files/sd_spi/sd_spi.h"
 #include "mcc_generated_files/system.h"
 
+#include "dac.h"
 #include "lcd_ILI9341.h"
 #include "sampler.h"
 
 /*
     Main application
  */
-int main(void) {    
+int main(void) {
+    uint64_t t = 0;
     // initialize the device
     SYSTEM_Initialize();
     SAMPLER_Initialize();
@@ -71,12 +70,16 @@ int main(void) {
     
     SAMPLER_Enable();
     
+    DAC_Enable();
+    
+    
     while (1) {
-        
-        LCD_FillScreen(ILI9341_DARKGREEN);
-        DELAY_milliseconds(500);
-        LCD_FillScreen(ILI9341_MAROON);
-        DELAY_milliseconds(500);
+#define PI 3.1415926535
+        double angle = 2.0*PI*t/10000;
+        uint16_t voltage = 1000*sin(50*angle) + 1000;
+        DAC_SetVoltage(voltage);
+        t++;
+        DELAY_microseconds(10);
     }
     return 1; 
 }

@@ -41,6 +41,7 @@
       </logicalFolder>
       <itemPath>lcd_ILI9341.h</itemPath>
       <itemPath>sampler.h</itemPath>
+      <itemPath>dac.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -82,6 +83,7 @@
       <itemPath>main.c</itemPath>
       <itemPath>lcd_ILI9341.c</itemPath>
       <itemPath>sampler.c</itemPath>
+      <itemPath>dac.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

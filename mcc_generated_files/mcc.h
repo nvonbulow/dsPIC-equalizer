@@ -52,19 +52,19 @@
 #include "pin_manager.h"
 #include <stdint.h>
 #include <stdbool.h>
-#include "fatfs/ff.h"
-#include "spi1_driver.h"
-#include "dma.h"
-#include "drivers/spi_master.h"
 #include "sd_spi/sd_spi.h"
-#include "adc1.h"
-#include "reset.h"
-#include "watchdog.h"
-#include "cmp1.h"
-#include "delay.h"
-#include "ptg.h"
 #include "interrupt_manager.h"
 #include "traps.h"
+#include "cmp1.h"
+#include "adc1.h"
+#include "spi1_driver.h"
+#include "delay.h"
+#include "drivers/spi_master.h"
+#include "ptg.h"
+#include "watchdog.h"
+#include "fatfs/ff.h"
+#include "dma.h"
+#include "reset.h"
 
 #ifndef _XTAL_FREQ
 #define _XTAL_FREQ  160000000UL

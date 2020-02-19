@@ -46,23 +46,23 @@
 #include "clock.h"
 #include "system.h"
 #include "system_types.h"
-#include "fatfs/ff.h"
-#include "spi1_driver.h"
-#include "dma.h"
-#include "drivers/spi_master.h"
 #include "sd_spi/sd_spi.h"
-#include "adc1.h"
-#include "cmp1.h"
-#include "delay.h"
-#include "ptg.h"
 #include "interrupt_manager.h"
 #include "traps.h"
+#include "cmp1.h"
+#include "adc1.h"
+#include "spi1_driver.h"
+#include "delay.h"
+#include "drivers/spi_master.h"
+#include "ptg.h"
+#include "fatfs/ff.h"
+#include "dma.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
-    CLOCK_Initialize();
     INTERRUPT_Initialize();
+    CLOCK_Initialize();
     PTG_Initialize();
     CMP1_Initialize();
     ADC1_Initialize();
