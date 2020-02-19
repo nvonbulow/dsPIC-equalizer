@@ -55,6 +55,7 @@
 static void (*ADC1_CommonDefaultInterruptHandler)(void);
 static void (*ADC1_LCD_YNDefaultInterruptHandler)(uint16_t adcVal);
 static void (*ADC1_LCD_XMDefaultInterruptHandler)(uint16_t adcVal);
+static void (*ADC1_Audio_ADCDefaultInterruptHandler)(uint16_t adcVal);
 
 /**
   Section: Driver Interface
@@ -72,8 +73,8 @@ void ADC1_Initialize (void)
     ADCON2H = 0x00;
     // SWCTRG disabled; SHRSAMP disabled; SUSPEND disabled; SWLCTRG disabled; SUSPCIE disabled; CNVCHSEL AN0; REFSEL disabled; 
     ADCON3L = 0x00;
-    // SHREN enabled; C1EN disabled; C0EN disabled; CLKDIV 1; CLKSEL FOSC/2; 
-    ADCON3H = (0x80 & 0xFF00); //Disabling C0EN, C1EN, C2EN, C3EN and SHREN bits
+    // SHREN enabled; C1EN disabled; C0EN enabled; CLKDIV 1; CLKSEL FOSC/2; 
+    ADCON3H = (0x81 & 0xFF00); //Disabling C0EN, C1EN, C2EN, C3EN and SHREN bits
     // SAMC0EN disabled; SAMC1EN disabled; 
     ADCON4L = 0x00;
     // C0CHS AN0; C1CHS AN1; 
@@ -84,8 +85,8 @@ void ADC1_Initialize (void)
     ADMOD0H = 0x00;
     // DIFF25 disabled; SIGN25 disabled; 
     ADMOD1H = 0x00;
-    // IE1 disabled; IE0 disabled; IE3 disabled; IE2 disabled; IE5 disabled; IE4 disabled; IE10 disabled; IE7 enabled; IE6 disabled; IE9 disabled; IE8 enabled; IE11 disabled; 
-    ADIEL = 0x180;
+    // IE1 disabled; IE0 enabled; IE3 disabled; IE2 disabled; IE5 disabled; IE4 disabled; IE10 disabled; IE7 enabled; IE6 disabled; IE9 disabled; IE8 enabled; IE11 disabled; 
+    ADIEL = 0x181;
     // IE24 disabled; IE25 disabled; 
     ADIEH = 0x00;
     // CMPEN6 disabled; CMPEN10 disabled; CMPEN5 disabled; CMPEN11 disabled; CMPEN4 disabled; CMPEN3 disabled; CMPEN2 disabled; CMPEN1 disabled; CMPEN0 disabled; CMPEN9 disabled; CMPEN8 disabled; CMPEN7 disabled; 
@@ -159,7 +160,16 @@ void ADC1_Initialize (void)
     ADC1_SetCommonInterruptHandler(&ADC1_CallBack);
     ADC1_SetLCD_YNInterruptHandler(&ADC1_LCD_YN_CallBack);
     ADC1_SetLCD_XMInterruptHandler(&ADC1_LCD_XM_CallBack);
+    ADC1_SetAudio_ADCInterruptHandler(&ADC1_Audio_ADC_CallBack);
     
+    // Clearing ADC1 interrupt.
+    IFS5bits.ADCIF = 0;
+    // Enabling ADC1 interrupt.
+    IEC5bits.ADCIE = 1;
+    // Clearing Audio_ADC interrupt flag.
+    IFS5bits.ADCAN0IF = 0;
+    // Enabling Audio_ADC interrupt.
+    IEC5bits.ADCAN0IE = 1;
 
     // Setting WARMTIME bit
     ADCON5Hbits.WARMTIME = 0xF;
@@ -167,6 +177,8 @@ void ADC1_Initialize (void)
     ADCON1Lbits.ADON = 0x1;
     // Enabling Power for the Shared Core
     ADC1_SharedCorePowerEnable();
+    // Enabling Power for Core0
+    ADC1_Core0PowerEnable();
 
     //TRGSRC0 PTG; TRGSRC1 None; 
     ADTRIG0L = 0x1E;
@@ -216,18 +228,15 @@ void ADC1_SetCommonInterruptHandler(void* handler)
     ADC1_CommonDefaultInterruptHandler = handler;
 }
 
-void __attribute__ ((weak)) ADC1_Tasks ( void )
+void __attribute__ ( ( __interrupt__ , auto_psv, weak ) ) _ADCInterrupt ( void )
 {
-    if(IFS5bits.ADCIF)
-    {
-        if(ADC1_CommonDefaultInterruptHandler) 
-        { 
-            ADC1_CommonDefaultInterruptHandler(); 
-        }
-
-        // clear the ADC1 interrupt flag
-        IFS5bits.ADCIF = 0;
+    if(ADC1_CommonDefaultInterruptHandler) 
+    { 
+        ADC1_CommonDefaultInterruptHandler(); 
     }
+
+    // clear the ADC1 interrupt flag
+    IFS5bits.ADCIF = 0;
 }
 
 void __attribute__ ((weak)) ADC1_LCD_YN_CallBack( uint16_t adcVal )
@@ -288,6 +297,31 @@ void __attribute__ ((weak)) ADC1_LCD_XM_Tasks ( void )
     }
 }
 
+
+void __attribute__ ((weak)) ADC1_Audio_ADC_CallBack( uint16_t adcVal )
+{ 
+
+}
+
+void ADC1_SetAudio_ADCInterruptHandler(void* handler)
+{
+    ADC1_Audio_ADCDefaultInterruptHandler = handler;
+}
+
+void __attribute__ ( ( __interrupt__ , auto_psv, weak ) ) _ADCAN0Interrupt ( void )
+{
+    uint16_t valAudio_ADC;
+    //Read the ADC value from the ADCBUF
+    valAudio_ADC = ADCBUF0;
+
+    if(ADC1_Audio_ADCDefaultInterruptHandler) 
+    { 
+        ADC1_Audio_ADCDefaultInterruptHandler(valAudio_ADC); 
+    }
+
+    //clear the Audio_ADC interrupt flag
+    IFS5bits.ADCAN0IF = 0;
+}
 
 
 

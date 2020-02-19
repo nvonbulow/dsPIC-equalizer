@@ -52,4 +52,13 @@
 */
 void INTERRUPT_Initialize (void)
 {
+    //    PTG0I: PTG Trigger 0
+    //    Priority: 1
+        IPC20bits.PTG0IP = 1;
+    //    ADCAN0: ADC AN0 Convert Done
+    //    Priority: 1
+        IPC22bits.ADCAN0IP = 1;
+    //    ADCI: ADC Global Interrupt
+    //    Priority: 1
+        IPC22bits.ADCIP = 1;
 }

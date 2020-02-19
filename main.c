@@ -50,8 +50,11 @@
 #include "mcc_generated_files/delay.h"
 #include "mcc_generated_files/fatfs/ff.h"
 #include "mcc_generated_files/sd_spi/sd_spi.h"
+#include "mcc_generated_files/adc1.h"
+#include "mcc_generated_files/dma.h"
 
 #include "lcd_ILI9341.h"
+#include "mcc_generated_files/ptg.h"
 
 // #include "images/rose_logo.h"
 
@@ -73,6 +76,10 @@ bool SD_CloseDrive() {
     return true;
 }
 
+// PTG Timer Limit = Fosc/2 * t = Fosc/2 * 1/f
+
+uint16_t adc_values[1024];
+
 /*
                          Main application
  */
@@ -81,40 +88,34 @@ int main(void) {
     FATFS drive;
     FIL file;
     UINT result;
+    int conversion, i;
+    
     // initialize the device
     SYSTEM_Initialize();
-    if(!SD_OpenDrive(&drive)) {
-        IO_LED_SetHigh();
-        while(1);
-    }
-    LCD_Begin();
-    DELAY_milliseconds(5);
     
-    // Add your application code
+    IO_LED_SetHigh();
+    // Set up DMA such that data is automagically copied into the buffer
+    DMA_SourceAddressSet(DMA_CHANNEL_0, (uint16_t) &ADCBUF0);
+    DMA_DestinationAddressSet(DMA_CHANNEL_0, (uint16_t) adc_values);
+    DMA_TransferCountSet(DMA_CHANNEL_0, 1024);
+    DMA_ChannelEnable(DMA_CHANNEL_0);
+    PTG_Enable();
+    PTG_StartStepSequence();
+    
+    LCD_Begin();
+    
     while (1) {
         
-        if(IO_PB_GetValue() == 0) {
-            if(bmp_written) {
-                LCD_FillScreen(ILI9341_BLACK);
-                DELAY_milliseconds(50);
-                bmp_written = false;
-            }
-            else {
-                //LCD_WriteBitmapScaled((uint16_t*)rose_logo_img, 0, 0, 100, 150, 2);
-                if((result = f_open(&file, "LOGO.BMP", FA_READ)) != FR_OK) {
-                    IO_LED_SetHigh();
-                    continue;
-                }
-                IO_LED_SetLow();
-                LCD_WriteBitmapFile(&file, 0, (320-185)/2);
-                f_close(&file);
-                DELAY_milliseconds(50);
-                bmp_written = true;
-            }
-        }
-        
+        LCD_FillScreen(ILI9341_DARKGREEN);
+        DELAY_milliseconds(500);
+        LCD_FillScreen(ILI9341_MAROON);
+        DELAY_milliseconds(500);
     }
     return 1; 
+}
+
+void PTG_Trigger0_CallBack(void) {
+    IO_LED_SetLow();
 }
 /**
  End of File

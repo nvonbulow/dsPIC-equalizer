@@ -333,28 +333,6 @@ void PTG_Trigger0_CallBack(void);
 
 /**
   @Summary
-    Polled implementation
-
-  @Description
-    This routine is used to implement the tasks for polled implementations.
-  
-  @Preconditions
-    PTG_Initialize() function should have been 
-    called before calling this function.
- 
-  @Returns 
-    None
- 
-  @Param
-    None
- 
-  @Example
-    Refer to PTG_Initialize(); for an example
-    
-*/
-void PTG_Trigger0_Tasks(void);
-/**
-  @Summary
     Callback for PTG Trigger1.
 
   @Description

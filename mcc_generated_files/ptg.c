@@ -65,14 +65,14 @@ void PTG_Initialize (void)
     PTGBTEH = 0x00;
     // PTGHOLD 0; 
     PTGHOLD = 0x00;
-    // Timer0 delay = 0.0 ns; PTGT0LIM 0; 
-    PTGT0LIM = 0x00;    
+    // Timer0 delay = 22.675 us; PTGT0LIM 1814; 
+    PTGT0LIM = 0x716;    
     // Timer1 delay = 0.0 ns; PTGT1LIM 0; 
     PTGT1LIM = 0x00;    
     // Step delay = 0.0 ns; PTGSDLIM 0; 
     PTGSDLIM = 0x00;
-    // PTGC0LIM 0; 
-    PTGC0LIM = 0x00;
+    // PTGC0LIM 1024; 
+    PTGC0LIM = 0x400;
     // PTGC1LIM 0; 
     PTGC1LIM = 0x00;
     // PTGADJ 0; 
@@ -87,7 +87,20 @@ void PTG_Initialize (void)
   */
 
     
+    PTG_STEP0 = PTGJMPC0 | 0x4;     // Jump to STEP4
+    PTG_STEP1 = PTGTRIG | 0x0;     // Generate PTG Trigger 0
+    PTG_STEP2 = PTGCTRL | 0xb;     // Wait for the software trigger (positive edge, PTGSWT = 0 to 1)
+    PTG_STEP3 = PTGJMP | 0x0;     // Jump to STEP0
+    PTG_STEP4 = PTGCTRL | 0x8;     // Wait for PTG Timer0 to match PTGT0LIM
+    PTG_STEP5 = PTGTRIG | 0xc;     // Trigger for ADC Sample Trigger
+    PTG_STEP6 = PTGWHI | 0xd;     // Trigger Input ADC Done Group Interrupt
+    PTG_STEP7 = PTGJMP | 0x0;     // Jump to STEP0
 
+
+    //Clear PTG0 interrupt flag  
+    IFS5bits.PTG0IF = false;
+    //Enable PTG0 interrupt
+    IEC5bits.PTG0IE = true;
 
 }
 
@@ -127,16 +140,13 @@ void __attribute__ ((weak)) PTG_Trigger0_CallBack(void)
     // Add your custom callback code here
 }
 
-void PTG_Trigger0_Tasks ( void )
+void __attribute__ ( ( interrupt, no_auto_psv, context ) ) _ISR _PTG0Interrupt( void )
 {
-	if(IFS5bits.PTG0IF)
-	{
-		// PTG Trigger0 callback function 
-		PTG_Trigger0_CallBack();
-		
-		// clear the PTG Trigger0 interrupt flag
-		IFS5bits.PTG0IF = 0;
-	}
+	// PTG callback function for Trigger0
+	PTG_Trigger0_CallBack();
+	
+    /* TODO : Add interrupt handling code */
+    IFS5bits.PTG0IF = false;
 }
 
 void __attribute__ ((weak)) PTG_Trigger1_CallBack(void)
