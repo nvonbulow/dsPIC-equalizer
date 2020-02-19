@@ -6786,7 +6786,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.PropertyTokenKey" moduleName="PTG" name="data%1%stepValues"/>
-         <value>STEP1 = PTGTRIG | 0x0;     // Generate PTG Trigger 0</value>
+         <value>STEP1 = PTGIRQ | 0x0;     // Generate PTG IRQ 0</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.OptionKey" moduleName="ADC1" registerAlias="ADCORE1H" settingAlias="ADCS" alias="148"/>

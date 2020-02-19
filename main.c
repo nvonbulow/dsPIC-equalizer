@@ -45,64 +45,31 @@
 /**
   Section: Included Files
 */
-#include "mcc_generated_files/system.h"
-#include "mcc_generated_files/pin_manager.h"
-#include "mcc_generated_files/delay.h"
-#include "mcc_generated_files/fatfs/ff.h"
-#include "mcc_generated_files/sd_spi/sd_spi.h"
 #include "mcc_generated_files/adc1.h"
+#include "mcc_generated_files/delay.h"
 #include "mcc_generated_files/dma.h"
+#include "mcc_generated_files/fatfs/ff.h"
+#include "mcc_generated_files/pin_manager.h"
+#include "mcc_generated_files/ptg.h"
+#include "mcc_generated_files/sd_spi/sd_spi.h"
+#include "mcc_generated_files/system.h"
 
 #include "lcd_ILI9341.h"
-#include "mcc_generated_files/ptg.h"
-
-// #include "images/rose_logo.h"
-
-bool SD_OpenDrive(FATFS* drive) {
-    if( SD_SPI_IsMediaPresent() == false) {
-        return false;
-    }
-
-    if (f_mount(drive, "0:", 1) == FR_OK) {
-        return true;
-    }
-    return false;
-}
-
-bool SD_CloseDrive() {
-    if(!f_mount(0,"0:",0)) {
-        return false;
-    }
-    return true;
-}
-
-// PTG Timer Limit = Fosc/2 * t = Fosc/2 * 1/f
-
-uint16_t adc_values[1024];
+#include "sampler.h"
 
 /*
-                         Main application
+    Main application
  */
-int main(void) {
-    bool bmp_written = false;
-    FATFS drive;
-    FIL file;
-    UINT result;
-    int conversion, i;
-    
+int main(void) {    
     // initialize the device
     SYSTEM_Initialize();
+    SAMPLER_Initialize();
     
     IO_LED_SetHigh();
-    // Set up DMA such that data is automagically copied into the buffer
-    DMA_SourceAddressSet(DMA_CHANNEL_0, (uint16_t) &ADCBUF0);
-    DMA_DestinationAddressSet(DMA_CHANNEL_0, (uint16_t) adc_values);
-    DMA_TransferCountSet(DMA_CHANNEL_0, 1024);
-    DMA_ChannelEnable(DMA_CHANNEL_0);
-    PTG_Enable();
-    PTG_StartStepSequence();
     
     LCD_Begin();
+    
+    SAMPLER_Enable();
     
     while (1) {
         
@@ -112,10 +79,6 @@ int main(void) {
         DELAY_milliseconds(500);
     }
     return 1; 
-}
-
-void PTG_Trigger0_CallBack(void) {
-    IO_LED_SetLow();
 }
 /**
  End of File

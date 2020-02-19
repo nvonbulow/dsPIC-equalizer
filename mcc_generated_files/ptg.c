@@ -88,7 +88,7 @@ void PTG_Initialize (void)
 
     
     PTG_STEP0 = PTGJMPC0 | 0x4;     // Jump to STEP4
-    PTG_STEP1 = PTGTRIG | 0x0;     // Generate PTG Trigger 0
+    PTG_STEP1 = PTGIRQ | 0x0;     // Generate PTG IRQ 0
     PTG_STEP2 = PTGCTRL | 0xb;     // Wait for the software trigger (positive edge, PTGSWT = 0 to 1)
     PTG_STEP3 = PTGJMP | 0x0;     // Jump to STEP0
     PTG_STEP4 = PTGCTRL | 0x8;     // Wait for PTG Timer0 to match PTGT0LIM
