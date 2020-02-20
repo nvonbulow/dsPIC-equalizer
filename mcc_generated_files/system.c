@@ -46,27 +46,31 @@
 #include "clock.h"
 #include "system.h"
 #include "system_types.h"
-#include "sd_spi/sd_spi.h"
+#include "cmp1.h"
+#include "sccp1_tmr.h"
+#include "ptg.h"
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "cmp1.h"
-#include "adc1.h"
-#include "spi1_driver.h"
-#include "delay.h"
-#include "drivers/spi_master.h"
-#include "ptg.h"
-#include "fatfs/ff.h"
 #include "dma.h"
+#include "tmr1.h"
+#include "drivers/spi_master.h"
+#include "delay.h"
+#include "fatfs/ff.h"
+#include "spi1_driver.h"
+#include "adc1.h"
+#include "sd_spi/sd_spi.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
-    INTERRUPT_Initialize();
     CLOCK_Initialize();
+    INTERRUPT_Initialize();
+    SCCP1_TMR_Initialize();
     PTG_Initialize();
     CMP1_Initialize();
     ADC1_Initialize();
     DMA_Initialize();
+    TMR1_Initialize();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);
 }

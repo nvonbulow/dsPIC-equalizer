@@ -81,8 +81,8 @@ void DMA_Initialize(void)
 
     // CHEN disabled; SAMODE Unchanged; SIZE 16 bit; DAMODE Unchanged; CHREQ disabled; RELOAD disabled; TRMODE One-Shot; NULLW disabled; 
     DMACH1 = 0x00 & 0xFFFE; //Enable DMA Channel later;
-    // HALFIF disabled; LOWIF disabled; HALFEN disabled; DONEIF disabled; OVRUNIF disabled; HIGHIF disabled; CHSEL INT0; 
-    DMAINT1= 0x00;
+    // HALFIF disabled; LOWIF disabled; HALFEN disabled; DONEIF disabled; OVRUNIF disabled; HIGHIF disabled; CHSEL SCCP1; 
+    DMAINT1= 0x100;
     // SADDR 0; 
     DMASRC1= 0x00;
     // DADDR 0; 
