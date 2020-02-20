@@ -25,9 +25,9 @@ extern volatile uint16_t sample_buffer[SAMPLER_BUFFER_COUNT][SAMPLER_BUFFER_SIZE
 #define SAMPLER_DEFAULT_RATE 44100
 
 // Sets up the ADC and DMA channels and the PTG to collect samples
-void SAMPLER_Initialize(void);
+void STREAM_Initialize(void);
 
-void SAMPLER_Enable(void);
+void STREAM_Enable(void);
 
 void SAMPER_Disable(void);
 

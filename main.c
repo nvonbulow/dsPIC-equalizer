@@ -53,7 +53,7 @@
 
 #include "dac.h"
 #include "lcd_ILI9341.h"
-#include "sampler.h"
+#include "stream.h"
 
 /*
     Main application
@@ -62,24 +62,24 @@ int main(void) {
     uint64_t t = 0;
     // initialize the device
     SYSTEM_Initialize();
-    SAMPLER_Initialize();
+    STREAM_Initialize();
     
     IO_LED_SetHigh();
     
     LCD_Begin();
     
-    SAMPLER_Enable();
+    STREAM_Enable();
     
     DAC_Enable();
     
     
     while (1) {
 #define PI 3.1415926535
-        double angle = 2.0*PI*t/10000;
-        uint16_t voltage = 1000*sin(50*angle) + 1000;
+        double angle = 2.0*PI*t/10;
+        uint16_t voltage = 1000*sin(angle) + 1000;
         DAC_SetVoltage(voltage);
         t++;
-        DELAY_microseconds(10);
+        DELAY_microseconds(1);
     }
     return 1; 
 }
