@@ -77,12 +77,12 @@ void SCCP1_TMR_Initialize(void)
 {
     // CCPON enabled; MOD 16-Bit/32-Bit Timer; CCSEL disabled; CCPSIDL disabled; TMR32 16 Bit; CCPSLP disabled; TMRPS 1:1; CLKSEL FOSC/2; TMRSYNC disabled; 
     CCP1CON1L = (0x8000 & 0x7FFF); //Disabling CCPON bit
-    //RTRGEN disabled; ALTSYNC disabled; ONESHOT disabled; TRIGEN disabled; IOPS Each Time Base Period Match; SYNC None; OPSRC Special Event Trigger; 
-    CCP1CON1H = 0x8000;
+    //RTRGEN disabled; ALTSYNC disabled; ONESHOT disabled; TRIGEN enabled; IOPS Each Time Base Period Match; SYNC None; OPSRC Timer Interrupt Event; 
+    CCP1CON1H = 0x80;
     //ASDGM disabled; SSDG disabled; ASDG 0; PWMRSEN disabled; 
     CCP1CON2L = 0x00;
-    //ICGSM Level-Sensitive mode; ICSEL IC1; AUXOUT Disabled; OCAEN disabled; OENSYNC disabled; 
-    CCP1CON2H = 0x00;
+    //ICGSM Level-Sensitive mode; ICSEL IC1; AUXOUT Special Event Trigger; OCAEN disabled; OENSYNC disabled; 
+    CCP1CON2H = 0x10;
     //OETRIG disabled; OSCNT None; POLACE disabled; PSSACE Tri-state; 
     CCP1CON3H = 0x00;
     //ICDIS disabled; SCEVT disabled; TRSET disabled; ICOV disabled; ASEVT disabled; TRIG disabled; ICGARM disabled; TRCLR disabled; 
@@ -91,8 +91,8 @@ void SCCP1_TMR_Initialize(void)
     CCP1TMRL = 0x00;
     //TMR 0; 
     CCP1TMRH = 0x00;
-    //PR 1813; 
-    CCP1PRL = 0x715;
+    //PR 1814; 
+    CCP1PRL = 0x716;
     //PR 0; 
     CCP1PRH = 0x00;
     //CMP 0; 
@@ -110,7 +110,11 @@ void SCCP1_TMR_Initialize(void)
 
     IFS0bits.CCT1IF = 0;
       
+    // Enabling SCCP1 interrupt.
+    IEC0bits.CCP1IE = 1;
 
+    // Enabling SCCP1 interrupt.
+    IEC0bits.CCT1IE = 1;
 
 }
 
@@ -136,15 +140,14 @@ void __attribute__ ((weak)) SCCP1_TMR_PrimaryTimerCallBack(void)
     // Add your custom callback code here
 }
 
-void SCCP1_TMR_PrimaryTimerTasks( void )
+void __attribute__ ( ( interrupt, no_auto_psv ) ) _CCT1Interrupt ( void )
 {
     /* Check if the Timer Interrupt/Status is set */
     if(IFS0bits.CCT1IF)
-    {
+    {         
+        sccp1_timer_obj.primaryTimer16Elapsed = true;
 		// SCCP1 Primary Timer callback function 
 		SCCP1_TMR_PrimaryTimerCallBack();
-		
-        sccp1_timer_obj.primaryTimer16Elapsed = true;
         IFS0bits.CCT1IF = 0;
     }
 }
@@ -155,7 +158,7 @@ void __attribute__ ((weak)) SCCP1_TMR_SecondaryTimerCallBack(void)
     // Add your custom callback code here
 }
 
-void SCCP1_TMR_SecondaryTimerTasks( void )
+void __attribute__ ( ( interrupt, no_auto_psv ) ) _CCP1Interrupt ( void )
 {
     /* Check if the Timer Interrupt/Status is set */
     if(IFS0bits.CCP1IF)

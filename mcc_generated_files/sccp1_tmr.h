@@ -163,24 +163,6 @@ void SCCP1_TMR_Stop( void );
 */
 void SCCP1_TMR_PrimaryTimerCallBack(void);
 
-/**
-  void SCCP1_TMR_PrimaryTimerTasks( void )
- 
-  @Summary
-    Maintains the driver's primary timer state machine in a polled manner
-
-  @Description
-    This routine is used to maintain the driver's internal primary timer state
-    machine.This routine is called when the state of the primary timer needs to be
-    maintained in a polled manner.
-
-  @Param
-    None.
-
-  @Returns
-    None
- */
-void SCCP1_TMR_PrimaryTimerTasks( void );
 
 /**
   @Summary
@@ -201,24 +183,7 @@ void SCCP1_TMR_PrimaryTimerTasks( void );
 void SCCP1_TMR_SecondaryTimerCallBack(void);
 
 /**
-    void SCCP1_TMR_SecondaryTimerTasks ( void )
-
-  @Summary
-    Maintains the driver's secondary timer state machine in a polled manner
-
-  @Description
-    This routine is used to maintain the driver's internal secondary timer state
-    machine.This routine is called when the state of the secondary timer needs to be
-    maintained in a polled manner.
-
-  @Param
-    None.
-
-  @Returns
-    None
-
 */
-void SCCP1_TMR_SecondaryTimerTasks( void );
 
 /**
   @Summary

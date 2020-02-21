@@ -79,8 +79,8 @@ void DMA_Initialize(void)
     // Clearing Channel 0 Interrupt Flag;
     IFS0bits.DMA0IF = false;
 
-    // CHEN disabled; SAMODE Unchanged; SIZE 16 bit; DAMODE Unchanged; CHREQ disabled; RELOAD disabled; TRMODE One-Shot; NULLW disabled; 
-    DMACH1 = 0x00 & 0xFFFE; //Enable DMA Channel later;
+    // CHEN disabled; SAMODE Incremented; SIZE 16 bit; DAMODE Unchanged; CHREQ disabled; RELOAD disabled; TRMODE One-Shot; NULLW disabled; 
+    DMACH1 = 0x40 & 0xFFFE; //Enable DMA Channel later;
     // HALFIF disabled; LOWIF disabled; HALFEN disabled; DONEIF disabled; OVRUNIF disabled; HIGHIF disabled; CHSEL SCCP1; 
     DMAINT1= 0x100;
     // SADDR 0; 
@@ -91,6 +91,8 @@ void DMA_Initialize(void)
     DMACNT1= 0x00;
     // Clearing Channel 1 Interrupt Flag;
     IFS0bits.DMA1IF = false;
+    // Enabling Channel 1 Interrupt
+    IEC0bits.DMA1IE = true;
 
     // SAMODE Unchanged; CHEN disabled; SIZE 16 bit; DAMODE Unchanged; CHREQ disabled; RELOAD disabled; NULLW disabled; TRMODE One-Shot; 
     DMACH2 = 0x00 & 0xFFFE; //Enable DMA Channel later;
@@ -143,15 +145,12 @@ void __attribute__ ((weak)) DMA_Channel1_CallBack(void)
     // Add your custom callback code here
 }
 
-void DMA__Channel1_Tasks( void )
+void __attribute__ ( ( interrupt, no_auto_psv ) ) _DMA1Interrupt( void )
 {
-	if(IFS0bits.DMA1IF)
-	{
-		// DMA Channel1 callback function 
-		DMA_Channel1_CallBack();
-		
-		IFS0bits.DMA1IF = 0;
-	}
+	// DMA Channel1 callback function 
+	DMA_Channel1_CallBack();
+	
+    IFS0bits.DMA1IF = 0;
 }
 void __attribute__ ((weak)) DMA_Channel2_CallBack(void)
 {

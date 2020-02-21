@@ -59,7 +59,7 @@
     Main application
  */
 int main(void) {
-    uint64_t t = 0;
+    uint64_t i = 0;
     // initialize the device
     SYSTEM_Initialize();
     STREAM_Initialize();
@@ -68,18 +68,18 @@ int main(void) {
     
     LCD_Begin();
     
-    STREAM_Enable();
+    STREAM_InputEnable();
+    
+    for(i = 0; i < 1024; i++) {
+        STREAM_output_buffers[0][i] = DAC_VoltageToValue(2048-i*2);
+    }
+    
+    STREAM_OutputEnable();
     
     DAC_Enable();
     
-    
     while (1) {
-#define PI 3.1415926535
-        double angle = 2.0*PI*t/10;
-        uint16_t voltage = 1000*sin(angle) + 1000;
-        DAC_SetVoltage(voltage);
-        t++;
-        DELAY_microseconds(1);
+
     }
     return 1; 
 }

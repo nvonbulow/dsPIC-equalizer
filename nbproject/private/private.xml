@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/mcc_generated_files/mcc.c</file>
-            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/mcc_generated_files/dma.c</file>
-            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/mcc_generated_files/spi1_driver.c</file>
-            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/sampler.h</file>
-            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/mcc_generated_files/ptg.c</file>
+            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/stream.c</file>
+            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/dac.h</file>
+            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/stream.h</file>
+            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/mcc_generated_files/sccp1_tmr.c</file>
+            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/dac.c</file>
             <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/main.c</file>
-            <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/sampler.c</file>
             <file>file:/C:/Users/nick/Desktop/classwork/ECE230/final_project.X/mcc_generated_files/cmp1.c</file>
         </group>
     </open-files>
