@@ -12,15 +12,21 @@
 
 volatile uint16_t STREAM_input_buffers[STREAM_BUFFER_COUNT][STREAM_BUFFER_SIZE];
 
-volatile uint8_t STREAM_current_input_buffer = 0;
+volatile int8_t STREAM_current_input_buffer = 0;
 
 volatile uint16_t STREAM_output_buffers[STREAM_BUFFER_COUNT][STREAM_BUFFER_SIZE];
 
-volatile uint8_t STREAM_current_output_buffer;
+volatile int8_t STREAM_current_output_buffer;
 
 static volatile bool input_buffer_ready = false;
 
 static volatile bool output_buffer_written = false;
+
+static bool input_enabled = false;
+
+static bool output_enabled = false;
+
+volatile uint8_t ptg_trigger_cnt = 0;
 
 void STREAM_Initialize() {
     // The source address remains the same as we copy from the adc buffer always
@@ -38,45 +44,79 @@ void STREAM_Initialize() {
 }
 
 void STREAM_InputEnable() {
+    if(input_enabled) {
+        return;
+    }
+    input_enabled = true;
+    
     // The destination address base
     DMA_DestinationAddressSet(DMA_CHANNEL_0, (uint16_t) STREAM_input_buffers[STREAM_current_input_buffer]);
     DMA_TransferCountSet(DMA_CHANNEL_0, STREAM_BUFFER_SIZE);
     DMA_ChannelEnable(DMA_CHANNEL_0);
-    PTG_Enable();
-    PTG_StartStepSequence();
+    
+    if(!output_enabled) {
+        PTG_Enable();
+        PTG_StartStepSequence();
+    }
 }
 
 void STREAM_OutputEnable() {
+    if(output_enabled) {
+        return;
+    }
+    output_enabled = true;
+    
     DMA_SourceAddressSet(DMA_CHANNEL_1, (uint16_t) STREAM_output_buffers[STREAM_current_output_buffer]);
     DMA_TransferCountSet(DMA_CHANNEL_1, STREAM_BUFFER_SIZE);
-    SCCP1_TMR_Start();
+    DMA_ChannelEnable(DMA_CHANNEL_1);
     DAC_Enable();
+    
+    if(!input_enabled) {
+        PTG_Enable();
+        PTG_StartStepSequence();
+    }
 }
 
 void STREAM_InputDisable() {
-    PTG_StopStepSequence();
-    PTG_Disable();
+    if(!input_enabled) {
+        return;
+    }
+    input_enabled = false;
+    
     DMA_ChannelDisable(DMA_CHANNEL_0);
+    
+    if(!output_enabled) {
+        PTG_StopStepSequence();
+        PTG_Disable();
+    }
 }
 
 void STREAM_OutputDisable() {
+    if(!output_enabled) {
+        return;
+    }
+    output_enabled = false;
     DAC_Disable();
-    SCCP1_TMR_Stop();
     DMA_ChannelDisable(DMA_CHANNEL_1);
-}
-
-uint16_t* STREAM_GetNextInputBuffer() {
-    if(STREAM_current_input_buffer + 1 >= STREAM_BUFFER_COUNT) {
-        return STREAM_input_buffers[0];
+    
+    if(!input_enabled) {
+        PTG_StopStepSequence();
+        PTG_Disable();
     }
-    return STREAM_input_buffers[STREAM_current_input_buffer];
 }
 
-uint16_t* STREAM_GetNextOutputBuffer() {
+uint16_t* STREAM_GetWorkingInputBuffer() {
+    if(STREAM_current_input_buffer - 1 < 0) {
+        return (uint16_t*) STREAM_input_buffers[STREAM_BUFFER_COUNT - 1];
+    }
+    return (uint16_t*) STREAM_input_buffers[STREAM_current_input_buffer];
+}
+
+uint16_t* STREAM_GetWorkingOutputBuffer() {
     if(STREAM_current_output_buffer + 1 >= STREAM_BUFFER_COUNT) {
-        return STREAM_output_buffers[0];
+        return (uint16_t*) STREAM_output_buffers[0];
     }
-    return STREAM_output_buffers[STREAM_current_output_buffer];
+    return (uint16_t*) STREAM_output_buffers[STREAM_current_output_buffer];
 }
 
 bool STREAM_InputBufferReady() {
@@ -98,33 +138,25 @@ bool STREAM_OutputBufferWritten() {
 // This interrupt is triggered when the PTG completes 1024 samples, so we can
 // change out the buffer and reset the PTG/DMA controller
 void PTG_Trigger0_CallBack(void) {
-    if(++STREAM_current_input_buffer >= STREAM_BUFFER_COUNT) {
-        // start over
-        STREAM_current_input_buffer = 0;
-    }
-    // Swap buffers and start PTG again
-    DMA_ChannelDisable(DMA_CHANNEL_0);
-    DMA_DestinationAddressSet(DMA_CHANNEL_0, (uint16_t) STREAM_input_buffers[STREAM_current_input_buffer]);
-    DMA_TransferCountSet(DMA_CHANNEL_0, STREAM_BUFFER_SIZE);
-    DMA_ChannelEnable(DMA_CHANNEL_0);
-    // Let PTG know to resume again
-    PTG_SoftwareTriggerSet();
-    
-    input_buffer_ready = true;
-}
+    ptg_trigger_cnt++;
+    if(input_enabled) {
+        if(++STREAM_current_input_buffer >= STREAM_BUFFER_COUNT) {
+            // start over
+            STREAM_current_input_buffer = 0;
+        }
+        // Swap buffers and start PTG again
+        DMA_ChannelDisable(DMA_CHANNEL_0);
+        DMA_DestinationAddressSet(DMA_CHANNEL_0, (uint16_t) STREAM_input_buffers[STREAM_current_input_buffer]);
+        DMA_TransferCountSet(DMA_CHANNEL_0, STREAM_BUFFER_SIZE);
+        DMA_ChannelEnable(DMA_CHANNEL_0);
 
-// This interrupt is triggered when the secondary timer period on the CCP module
-// expires. This is set to a multiple of the actual sample rate. We need to count
-// The number of times this interrupt is called and reset the timer and DMA buffer
-// when all the samples from the current buffer have been written to the DAC
-void SCCP1_TMR_SecondaryTimerCallBack(void) {
-    static int call_count = 0;
-    if(++call_count == STREAM_BUFFER_SIZE / STREAM_OUTPUT_INTERRUPT_DIVIDER) {
-        call_count = 0;
+        input_buffer_ready = true;
+    }
+    if(output_enabled) {
         if(++STREAM_current_output_buffer >= STREAM_BUFFER_COUNT) {
+            // start over
             STREAM_current_output_buffer = 0;
         }
-        // Swap buffers and reset DMA
         DMA_ChannelDisable(DMA_CHANNEL_1);
         DMA_SourceAddressSet(DMA_CHANNEL_1, (uint16_t) STREAM_output_buffers[STREAM_current_output_buffer]);
         DMA_TransferCountSet(DMA_CHANNEL_1, STREAM_BUFFER_SIZE);
@@ -132,4 +164,7 @@ void SCCP1_TMR_SecondaryTimerCallBack(void) {
         
         output_buffer_written = true;
     }
+    
+    // Let PTG know to resume again
+    PTG_SoftwareTriggerSet();
 }

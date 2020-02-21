@@ -21,7 +21,7 @@ extern "C" {
 // multiplier used on the secondary timer to reduce the number of interrupts
 // produced. This might need to be adjusted so that the secondary timer counter
 // does not exceed the limit of a 16 bit value
-#define STREAM_OUTPUT_INTERRUPT_DIVIDER 32
+#define STREAM_OUTPUT_INTERRUPT_DIVIDER 16
 
 // Future idea: if we run low on RAM, we should use two, maybe three buffers in
 // total, them being shared by the input and output subsystems    
@@ -30,11 +30,11 @@ extern "C" {
 // The ADC input buffers
 extern volatile uint16_t STREAM_input_buffers[STREAM_BUFFER_COUNT][STREAM_BUFFER_SIZE];
 
-extern volatile uint8_t STREAM_current_input_buffer;
+extern volatile int8_t STREAM_current_input_buffer;
 
 extern volatile uint16_t STREAM_output_buffers[STREAM_BUFFER_COUNT][STREAM_BUFFER_SIZE];
 
-extern volatile uint8_t STREAM_current_output_buffer;
+extern volatile int8_t STREAM_current_output_buffer;
 
 // The default sampling rate
 #define STREAM_DEFAULT_SAMPLE_RATE 44100

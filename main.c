@@ -46,6 +46,7 @@
   Section: Included Files
 */
 #include <math.h>
+#include <string.h> // memcpy
 
 #include "mcc_generated_files/delay.h"
 #include "mcc_generated_files/pin_manager.h"
@@ -59,7 +60,7 @@
     Main application
  */
 int main(void) {
-    uint64_t i = 0;
+    uint16_t i = 0;
     // initialize the device
     SYSTEM_Initialize();
     STREAM_Initialize();
@@ -71,15 +72,19 @@ int main(void) {
     STREAM_InputEnable();
     
     for(i = 0; i < 1024; i++) {
-        STREAM_output_buffers[0][i] = DAC_VoltageToValue(2048-i*2);
+        uint16_t val = DAC_VoltageToValue(2048-i*2);
+        STREAM_output_buffers[0][i] = val;
     }
     
     STREAM_OutputEnable();
     
-    DAC_Enable();
-    
     while (1) {
-
+//        uint16_t *input_buffer, *output_buffer;
+//        while(!STREAM_InputBufferReady());
+//        input_buffer = STREAM_GetWorkingInputBuffer();
+//        output_buffer = STREAM_GetWorkingOutputBuffer();
+//        
+//        memcpy((void*) output_buffer, (void*) input_buffer, STREAM_BUFFER_SIZE * sizeof(uint16_t));
     }
     return 1; 
 }

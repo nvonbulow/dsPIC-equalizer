@@ -12,7 +12,7 @@
 extern "C" {
 #endif
     
-#define DAC_VoltageToValue(mv) (((uint32_t)4095*mv/3300) & 0x0FFF)
+#define DAC_VoltageToValue(mv) (((uint32_t)4095*(mv)/3300) & 0x0FFF)
 
 // Enables the operation of the DAC
 void DAC_Enable(void);

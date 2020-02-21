@@ -77,12 +77,12 @@ void SCCP1_TMR_Initialize(void)
 {
     // CCPON enabled; MOD 16-Bit/32-Bit Timer; CCSEL disabled; CCPSIDL disabled; TMR32 16 Bit; CCPSLP disabled; TMRPS 1:1; CLKSEL FOSC/2; TMRSYNC disabled; 
     CCP1CON1L = (0x8000 & 0x7FFF); //Disabling CCPON bit
-    //RTRGEN disabled; ALTSYNC disabled; ONESHOT disabled; TRIGEN enabled; IOPS Each Time Base Period Match; SYNC None; OPSRC Timer Interrupt Event; 
-    CCP1CON1H = 0x80;
+    //RTRGEN disabled; ALTSYNC disabled; ONESHOT disabled; TRIGEN enabled; IOPS Each Time Base Period Match; SYNC None; OPSRC Special Event Trigger; 
+    CCP1CON1H = 0x8080;
     //ASDGM disabled; SSDG disabled; ASDG 0; PWMRSEN disabled; 
     CCP1CON2L = 0x00;
-    //ICGSM Level-Sensitive mode; ICSEL IC1; AUXOUT Special Event Trigger; OCAEN disabled; OENSYNC disabled; 
-    CCP1CON2H = 0x10;
+    //ICGSM Level-Sensitive mode; ICSEL IC1; AUXOUT Disabled; OCAEN disabled; OENSYNC disabled; 
+    CCP1CON2H = 0x00;
     //OETRIG disabled; OSCNT None; POLACE disabled; PSSACE Tri-state; 
     CCP1CON3H = 0x00;
     //ICDIS disabled; SCEVT disabled; TRSET disabled; ICOV disabled; ASEVT disabled; TRIG disabled; ICGARM disabled; TRCLR disabled; 
