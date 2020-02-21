@@ -71,20 +71,20 @@ int main(void) {
     
     STREAM_InputEnable();
     
-    for(i = 0; i < 1024; i++) {
-        uint16_t val = DAC_VoltageToValue(2048-i*2);
-        STREAM_output_buffers[0][i] = val;
-    }
+//    for(i = 0; i < 1024; i++) {
+//        uint16_t val = DAC_VoltageToValue(2048-i*2);
+//        STREAM_output_buffers[0][i] = val;
+//    }
     
     STREAM_OutputEnable();
     
     while (1) {
-//        uint16_t *input_buffer, *output_buffer;
-//        while(!STREAM_InputBufferReady());
-//        input_buffer = STREAM_GetWorkingInputBuffer();
-//        output_buffer = STREAM_GetWorkingOutputBuffer();
-//        
-//        memcpy((void*) output_buffer, (void*) input_buffer, STREAM_BUFFER_SIZE * sizeof(uint16_t));
+        uint16_t *input_buffer, *output_buffer;
+        while(!STREAM_InputBufferReady());
+        input_buffer = STREAM_GetWorkingInputBuffer();
+        output_buffer = STREAM_GetWorkingOutputBuffer();
+        
+        memcpy((void*) output_buffer, (void*) input_buffer, STREAM_BUFFER_SIZE * sizeof(uint16_t));
     }
     return 1; 
 }
