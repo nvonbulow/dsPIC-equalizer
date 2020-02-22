@@ -35,6 +35,8 @@ void STREAM_Initialize() {
     DMA_SourceAddressSet(DMA_CHANNEL_0, (uint16_t) &ADCBUF0);
     // For the output, the destination address is always the DAC output register
     DMA_DestinationAddressSet(DMA_CHANNEL_1, (uint16_t) &DAC1DATH);
+    // PTG counter limit is just the size of the buffer
+    PTGC0LIM = STREAM_BUFFER_SIZE;
     // PTG Timer Limit = Fosc/2 * t = Fosc/2 * 1/f
     PTGT0LIM = _XTAL_FREQ / (2 * STREAM_DEFAULT_SAMPLE_RATE);
     // Primary SCCP timer counter uses the same formula
@@ -106,17 +108,17 @@ void STREAM_OutputDisable() {
 }
 
 uint16_t* STREAM_GetWorkingInputBuffer() {
-    if(STREAM_current_input_buffer - 1 < 0) {
-        return (uint16_t*) STREAM_input_buffers[STREAM_BUFFER_COUNT - 1];
+    if(STREAM_current_input_buffer + 1 >= STREAM_BUFFER_COUNT) {
+        return (uint16_t*) STREAM_input_buffers[0];
     }
-    return (uint16_t*) STREAM_input_buffers[STREAM_current_input_buffer];
+    return (uint16_t*) STREAM_input_buffers[STREAM_current_input_buffer + 1];
 }
 
 uint16_t* STREAM_GetWorkingOutputBuffer() {
-    if(STREAM_current_output_buffer + 1 >= STREAM_BUFFER_COUNT) {
-        return (uint16_t*) STREAM_output_buffers[0];
+    if(STREAM_current_output_buffer - 1 < 0) {
+        return (uint16_t*) STREAM_output_buffers[STREAM_BUFFER_COUNT - 1];
     }
-    return (uint16_t*) STREAM_output_buffers[STREAM_current_output_buffer];
+    return (uint16_t*) STREAM_output_buffers[STREAM_current_output_buffer - 1];
 }
 
 bool STREAM_InputBufferReady() {
@@ -133,6 +135,10 @@ bool STREAM_OutputBufferWritten() {
         return true;
     }
     return false;
+}
+
+void STREAM_SetSampleRate(uint32_t rate) {
+    // Not yet implemented
 }
 
 // This interrupt is triggered when the PTG completes 1024 samples, so we can

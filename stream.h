@@ -8,6 +8,9 @@
 #ifndef SAMPLER_H
 #define	SAMPLER_H
 
+#include <stdbool.h>
+#include <stdint.h>
+
 #ifdef	__cplusplus
 extern "C" {
 #endif
@@ -15,7 +18,7 @@ extern "C" {
 // Sets the number of buffers
 #define STREAM_BUFFER_COUNT 2
 // Sets the size of the sample buffers
-#define STREAM_BUFFER_SIZE 1024
+#define STREAM_BUFFER_SIZE 512
     
 // An interrupt is triggered on every secondary SCCP1 timer. This is the
 // multiplier used on the secondary timer to reduce the number of interrupts
@@ -44,10 +47,21 @@ void STREAM_Initialize(void);
 
 void STREAM_InputEnable(void);
 
+void STREAM_OutputEnable(void);
+
 void STREAM_InputDisable(void);
 
-void STREAM_SetSampleRate(void);
+void STREAM_OutputDisable(void);
 
+uint16_t* STREAM_GetWorkingInputBuffer(void);
+
+uint16_t* STREAM_GetWorkingOutputBuffer(void);
+
+bool STREAM_InputBufferReady(void);
+
+bool STREAM_OutputBufferWritten(void);
+
+void STREAM_SetSampleRate(uint32_t rate);
 
 #ifdef	__cplusplus
 }
