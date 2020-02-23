@@ -61,13 +61,15 @@
 inline fractional U12_Q15(uint16_t val) {
     // Data is in the range 0..4096, which is 12 bits
     // We want it in the range -0.5..0.5
-    // This can be done by shifting left 4 bits and inverting the sign bit
-    return (val << 4) ^ 0x8000;
+    // We'll normalize the data so it's in the range 0..1 by shifting left
+    // 3 bits (fractional is bits 0..14), and then subtract 0.5 to get it in
+    // the -0.5..0.5 range
+    return (val << 3) - Q15(0.5f);
 }
 
 inline uint16_t Q15_U12(fractional val) {
     // Just reverse the operations
-    return (val ^ 0x8000) >> 4;
+    return (val + Q15(0.5f)) >> 3;
 }
 
 // The coefficients of the FIR filter. These can range from [-1..1)
