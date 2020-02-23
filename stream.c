@@ -26,8 +26,6 @@ static bool input_enabled = false;
 
 static bool output_enabled = false;
 
-volatile uint8_t ptg_trigger_cnt = 0;
-
 void STREAM_Initialize() {
     // The source address remains the same as we copy from the adc buffer always
     // Because the DMA controller is triggered by the ADC convert done, we don't
@@ -144,7 +142,6 @@ void STREAM_SetSampleRate(uint32_t rate) {
 // This interrupt is triggered when the PTG completes 1024 samples, so we can
 // change out the buffer and reset the PTG/DMA controller
 void PTG_Trigger0_CallBack(void) {
-    ptg_trigger_cnt++;
     if(input_enabled) {
         if(++STREAM_current_input_buffer >= STREAM_BUFFER_COUNT) {
             // start over
