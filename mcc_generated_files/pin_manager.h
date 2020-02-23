@@ -348,6 +348,152 @@
 #define IO_LED_SetDigitalOutput() (_TRISA1 = 0)
 /**
   @Summary
+    Sets the GPIO pin, RA2, high using LATA2.
+
+  @Description
+    Sets the GPIO pin, RA2, high using LATA2.
+
+  @Preconditions
+    The RA2 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RA2 high (1)
+    IO_BTN_SetHigh();
+    </code>
+
+*/
+#define IO_BTN_SetHigh()          (_LATA2 = 1)
+/**
+  @Summary
+    Sets the GPIO pin, RA2, low using LATA2.
+
+  @Description
+    Sets the GPIO pin, RA2, low using LATA2.
+
+  @Preconditions
+    The RA2 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RA2 low (0)
+    IO_BTN_SetLow();
+    </code>
+
+*/
+#define IO_BTN_SetLow()           (_LATA2 = 0)
+/**
+  @Summary
+    Toggles the GPIO pin, RA2, using LATA2.
+
+  @Description
+    Toggles the GPIO pin, RA2, using LATA2.
+
+  @Preconditions
+    The RA2 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Toggle RA2
+    IO_BTN_Toggle();
+    </code>
+
+*/
+#define IO_BTN_Toggle()           (_LATA2 ^= 1)
+/**
+  @Summary
+    Reads the value of the GPIO pin, RA2.
+
+  @Description
+    Reads the value of the GPIO pin, RA2.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    uint16_t portValue;
+
+    // Read RA2
+    postValue = IO_BTN_GetValue();
+    </code>
+
+*/
+#define IO_BTN_GetValue()         _RA2
+/**
+  @Summary
+    Configures the GPIO pin, RA2, as an input.
+
+  @Description
+    Configures the GPIO pin, RA2, as an input.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RA2 as an input
+    IO_BTN_SetDigitalInput();
+    </code>
+
+*/
+#define IO_BTN_SetDigitalInput()  (_TRISA2 = 1)
+/**
+  @Summary
+    Configures the GPIO pin, RA2, as an output.
+
+  @Description
+    Configures the GPIO pin, RA2, as an output.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RA2 as an output
+    IO_BTN_SetDigitalOutput();
+    </code>
+
+*/
+#define IO_BTN_SetDigitalOutput() (_TRISA2 = 0)
+/**
+  @Summary
     Sets the GPIO pin, RB10, high using LATB10.
 
   @Description

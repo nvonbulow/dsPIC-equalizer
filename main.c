@@ -91,11 +91,14 @@ fractional filter_delay[STREAM_BUFFER_SIZE]
 
 FIRStruct filter;
 
+bool filter_enabled = false;
+
 /*
     Main application
  */
 int main(void) {
     uint16_t i = 0;
+    bool button_pressed = false;
     // initialize the device
     SYSTEM_Initialize();
     STREAM_Initialize();
@@ -123,6 +126,21 @@ int main(void) {
     while (1) {
         uint16_t *input_buffer, *output_buffer;
         
+        // Check if button was pressed to either enable or disable the filter
+        if(button_pressed && IO_BTN_GetValue()) {
+            // button was released so toggle the filter
+            filter_enabled = !filter_enabled;
+        }
+            
+        button_pressed = !IO_BTN_GetValue();
+        
+        if(filter_enabled) {
+            IO_LED_SetHigh();
+        }
+        else {
+            IO_LED_SetLow();
+        }
+        
         // Wait for buffer to fill up
         while(!STREAM_InputBufferReady());
         input_buffer = STREAM_GetWorkingInputBuffer();
@@ -133,8 +151,13 @@ int main(void) {
             filter_in[i] = U12_Q15(input_buffer[i]);
         }
         
-        // Run the filter
-        FIR(STREAM_BUFFER_SIZE, filter_out, filter_in, &filter);
+        if(filter_enabled) {
+            // Run the filter
+            FIR(STREAM_BUFFER_SIZE, filter_out, filter_in, &filter);
+        }
+        else {
+            memcpy(filter_out, filter_in, STREAM_BUFFER_SIZE * sizeof(fractional));
+        }
         
         // convert output data to U12 format
         for(i = 0; i < STREAM_BUFFER_SIZE; i++) {

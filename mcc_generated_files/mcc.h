@@ -52,24 +52,24 @@
 #include "pin_manager.h"
 #include <stdint.h>
 #include <stdbool.h>
-#include "fatfs/ff.h"
-#include "sd_spi/sd_spi.h"
-#include "watchdog.h"
-#include "spi1_driver.h"
 #include "sccp1_tmr.h"
-#include "adc1.h"
-#include "ptg.h"
-#include "dma.h"
 #include "reset.h"
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "drivers/spi_master.h"
-#include "delay.h"
-#include "cmp1.h"
 #include "tmr1.h"
+#include "adc1.h"
+#include "drivers/spi_master.h"
+#include "sd_spi/sd_spi.h"
+#include "fatfs/ff.h"
+#include "spi1_driver.h"
+#include "watchdog.h"
+#include "dma.h"
+#include "cmp1.h"
+#include "ptg.h"
+#include "delay.h"
 
 #ifndef _XTAL_FREQ
-#define _XTAL_FREQ  160000000UL
+#define _XTAL_FREQ  200000000UL
 #endif
 #define WDT_CLR_KEY 0x5743
 

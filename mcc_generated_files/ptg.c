@@ -57,7 +57,7 @@ void PTG_Initialize (void)
 {
     // PTGEN disabled; PTGSSEN disabled; PTGSWT disabled; PTGSIDL disabled; PTGTOGL disabled; PTGITM Continuous edge detect with Step delay executed on exit of command; PTGWTO disabled; PTGBUSY disabled; PTGIVIS disabled; PTGSTRT disabled; 
     PTGCST = (0x00 & 0x77FF);  // disabling PTGEN bit and PTGSTRT bit  
-    // Clock Frequency = 80.0 MHz; PTGWDT disabled; PTGDIV 1; PTGCLK FOSC/2; PTGPWD 1; 
+    // Clock Frequency = 100.0 MHz; PTGWDT disabled; PTGDIV 1; PTGCLK FOSC/2; PTGPWD 1; 
     PTGCON = 0x00;
     // PTGBTE13 disabled; PTGBTE14 disabled; PTGBTE11 disabled; PTGBTE12 disabled; PTGBTE15 disabled; PTGBTE1 disabled; PTGBTE0 disabled; PTGBTE3 disabled; PTGBTE2 disabled; PTGBTE5 disabled; PTGBTE4 disabled; PTGBTE10 disabled; PTGBTE7 disabled; PTGBTE6 disabled; PTGBTE9 disabled; PTGBTE8 disabled; 
     PTGBTE = 0x00;
@@ -65,7 +65,7 @@ void PTG_Initialize (void)
     PTGBTEH = 0x00;
     // PTGHOLD 0; 
     PTGHOLD = 0x00;
-    // Timer0 delay = 22.675 us; PTGT0LIM 1814; 
+    // Timer0 delay = 18.14 us; PTGT0LIM 1814; 
     PTGT0LIM = 0x716;    
     // Timer1 delay = 0.0 ns; PTGT1LIM 0; 
     PTGT1LIM = 0x00;    
