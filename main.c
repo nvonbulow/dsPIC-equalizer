@@ -56,6 +56,37 @@
 #include "lcd_ILI9341.h"
 #include "stream.h"
 
+#include <dsp.h>
+
+inline fractional U12_Q15(uint16_t val) {
+    // Data is in the range 0..4096, which is 12 bits
+    // We want it in the range -0.5..0.5
+    // This can be done by shifting left 4 bits and inverting the sign bit
+    return (val << 4) ^ 0x8000;
+}
+
+inline uint16_t Q15_U12(fractional val) {
+    // Just reverse the operations
+    return (val ^ 0x8000) >> 4;
+}
+
+// The coefficients of the FIR filter. These can range from [-1..1)
+fractional filter_coeffs[1]
+    __attribute__((space (xmemory)))
+     = { Q15(0.99f) };
+
+// FIR input buffer
+fractional filter_in[STREAM_BUFFER_SIZE];
+
+// FIR output buffer
+fractional filter_out[STREAM_BUFFER_SIZE];
+
+// FIR delay buffer
+fractional filter_delay[STREAM_BUFFER_SIZE]
+    __attribute__((space (ymemory)));
+
+FIRStruct filter;
+
 /*
     Main application
  */
@@ -78,13 +109,31 @@ int main(void) {
     
     STREAM_OutputEnable();
     
+    // FIR filter setup
+    FIRStructInit(&filter, 1, filter_coeffs, COEFFS_IN_DATA, filter_delay);
+    
     while (1) {
         uint16_t *input_buffer, *output_buffer;
+        
+        // Wait for buffer to fill up
         while(!STREAM_InputBufferReady());
         input_buffer = STREAM_GetWorkingInputBuffer();
         output_buffer = STREAM_GetWorkingOutputBuffer();
         
-        memcpy((void*) output_buffer, (void*) input_buffer, STREAM_BUFFER_SIZE * sizeof(uint16_t));
+        // convert input data to Q15 format
+        for(i = 0; i < STREAM_BUFFER_SIZE; i++) {
+            filter_in[i] = U12_Q15(input_buffer[i]);
+        }
+        
+        // Run the filter
+        FIR(STREAM_BUFFER_SIZE, filter_out, filter_in, &filter);
+        
+        // convert output data to U12 format
+        for(i = 0; i < STREAM_BUFFER_SIZE; i++) {
+            output_buffer[i] = Q15_U12(output_buffer[i]);
+        }
+        
+        // memcpy((void*) output_buffer, (void*) input_buffer, STREAM_BUFFER_SIZE * sizeof(uint16_t));
     }
     return 1; 
 }
