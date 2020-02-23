@@ -57,6 +57,8 @@
 #include "stream.h"
 
 #include <dsp.h>
+
+// FIR Filter related stuff
 // Open filter.fda in MATLAB to see the filter
 #include "fdacoefs.h"
 
@@ -93,6 +95,16 @@ FIRStruct filter;
 
 bool filter_enabled = false;
 
+// FFT related stuff
+fractcomplex twiddle_factors[STREAM_BUFFER_SIZE/2]
+    __attribute((space (xmemory), aligned(STREAM_BUFFER_SIZE * sizeof(fractcomplex) / 2)));
+
+fractcomplex fft_in[STREAM_BUFFER_SIZE]
+    __attribute__((space (ymemory), aligned (STREAM_BUFFER_SIZE * sizeof(fractcomplex))));
+
+fractcomplex fft_out[STREAM_BUFFER_SIZE]
+    __attribute__((space (ymemory), aligned (STREAM_BUFFER_SIZE * sizeof(fractcomplex))));
+
 /*
     Main application
  */
@@ -103,7 +115,9 @@ int main(void) {
     SYSTEM_Initialize();
     STREAM_Initialize();
     
-    IO_LED_SetHigh();
+    // Calculate Twiddle factors for FFT
+    // N is log2(STREAM_BUFFER_SIZE)
+    TwidFactorInit(9, twiddle_factors, 0);
     
     LCD_Begin();
     
@@ -149,6 +163,7 @@ int main(void) {
         // convert input data to Q15 format
         for(i = 0; i < STREAM_BUFFER_SIZE; i++) {
             filter_in[i] = U12_Q15(input_buffer[i]);
+            fft_in[i].real = filter_in[i];
         }
         
         if(filter_enabled) {
@@ -158,6 +173,8 @@ int main(void) {
         else {
             memcpy(filter_out, filter_in, STREAM_BUFFER_SIZE * sizeof(fractional));
         }
+        
+        FFTComplex(9, fft_out, fft_in, twiddle_factors, COEFFS_IN_DATA);
         
         // convert output data to U12 format
         for(i = 0; i < STREAM_BUFFER_SIZE; i++) {
