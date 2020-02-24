@@ -45,6 +45,7 @@
       <itemPath>dac.h</itemPath>
       <itemPath>stream.h</itemPath>
       <itemPath>fdacoefs.h</itemPath>
+      <itemPath>fdacoefs_bands.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
