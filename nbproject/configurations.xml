@@ -121,7 +121,7 @@
       <compileType>
         <linkerTool>
           <linkerLibItems>
-            <linkerLibFileItem>../../../../../../Program Files/Microchip/xc16/v1.50/lib/libdsp-elf.a</linkerLibFileItem>
+            <linkerLibFileItem>C:/Program Files/Microchip/xc16/v1.50/lib/libdsp-elf.a</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
         <archiverTool>

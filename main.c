@@ -107,6 +107,8 @@ fractcomplex fft_out[STREAM_BUFFER_SIZE]
 
 fractional coeff_buffer[NUM_COEFFS];
 
+uint16_t BUTTONCOUNT = 0;
+
 void CoeffBandGain(fractional* dst, fractional** bands, fractional* gains, uint16_t num_bands) {
     int i;
     // Initialize dst with 0
@@ -147,10 +149,10 @@ int main(void) {
     
     STREAM_OutputEnable();
     
-    CoeffBandGain(filter_coeffs, BANDS, eq_presets[1], 7);
+    CoeffBandGain(filter_coeffs, BANDS, eq_presets[BUTTONCOUNT], 7);
     
-    drawBarChart(eq_presets[1], ILI9341_GREEN);
-    
+    drawBarChart(eq_presets[BUTTONCOUNT], ILI9341_GREEN);
+            
     // FIR filter setup
     // Uses coefficents defined in main.c
     // FIRStructInit(&filter, sizeof(filter_coeffs) / sizeof(fractional), filter_coeffs, COEFFS_IN_DATA, filter_delay);
@@ -164,17 +166,19 @@ int main(void) {
         // Check if button was pressed to either enable or disable the filter
         if(button_pressed && IO_BTN_GetValue()) {
             // button was released so toggle the filter
-            filter_enabled = !filter_enabled;
+//            filter_enabled = !filter_enabled;
+            BUTTONCOUNT++;
+            if (BUTTONCOUNT == 10){
+                BUTTONCOUNT = 0;
+            }
         }
             
         button_pressed = !IO_BTN_GetValue();
         
-        if(filter_enabled) {
-            IO_LED_SetHigh();
-        }
-        else {
-            IO_LED_SetLow();
-        }
+        IO_LED_SetHigh();
+        CoeffBandGain(filter_coeffs, BANDS, eq_presets[BUTTONCOUNT], 7);
+        drawBarChart(eq_presets[BUTTONCOUNT], ILI9341_GREEN);
+        
         
         // Wait for buffer to fill up
         while(!STREAM_InputBufferReady());
@@ -187,13 +191,7 @@ int main(void) {
             fft_in[i].real = filter_in[i];
         }
         
-        if(filter_enabled) {
-            // Run the filter
-            FIR(STREAM_BUFFER_SIZE, filter_out, filter_in, &filter);
-        }
-        else {
-            memcpy(filter_out, filter_in, STREAM_BUFFER_SIZE * sizeof(fractional));
-        }
+        FIR(STREAM_BUFFER_SIZE, filter_out, filter_in, &filter);
         
         FFTComplex(9, fft_out, fft_in, twiddle_factors, COEFFS_IN_DATA);
         
