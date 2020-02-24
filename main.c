@@ -51,6 +51,8 @@
 #include "mcc_generated_files/delay.h"
 #include "mcc_generated_files/pin_manager.h"
 #include "mcc_generated_files/system.h"
+#include "mcc_generated_files/fatfs/ff.h"
+#include "mcc_generated_files/sd_spi/sd_spi.h"
 
 #include "dac.h"
 #include "lcd_ILI9341.h"
@@ -108,6 +110,7 @@ fractcomplex fft_out[STREAM_BUFFER_SIZE]
 fractional coeff_buffer[NUM_COEFFS];
 
 uint16_t BUTTONCOUNT = 0;
+uint16_t MODE = 0;
 
 void CoeffBandGain(fractional* dst, fractional** bands, fractional* gains, uint16_t num_bands) {
     int i;
@@ -122,15 +125,43 @@ void CoeffBandGain(fractional* dst, fractional** bands, fractional* gains, uint1
     // We done here bruh
 }
 
+bool SD_OpenDrive(FATFS* drive) {
+    if( SD_SPI_IsMediaPresent() == false) {
+        return false;
+    }
+
+    if (f_mount(drive, "0:", 1) == FR_OK) {
+        return true;
+    }
+    return false;
+}
+
+bool SD_CloseDrive() {
+    if(!f_mount(0,"0:",0)) {
+        return false;
+    }
+    return true;
+}
+
+
 /*
     Main application
  */
 int main(void) {
     uint16_t i = 0;
     bool button_pressed = false;
+    bool switch_pressed = false;
+    FATFS drive;
+    FIL file;
+    UINT result;
+
     // initialize the device
     SYSTEM_Initialize();
     STREAM_Initialize();
+    
+    if(!SD_OpenDrive(&drive)) {
+        while(1);
+    }
     
     // Calculate Twiddle factors for FFT
     // N is log2(STREAM_BUFFER_SIZE)
@@ -166,19 +197,34 @@ int main(void) {
         // Check if button was pressed to either enable or disable the filter
         if(button_pressed && IO_BTN_GetValue()) {
             // button was released so toggle the filter
-//            filter_enabled = !filter_enabled;
-            BUTTONCOUNT++;
-            if (BUTTONCOUNT == 10){
-                BUTTONCOUNT = 0;
-            }
+            BUTTONCOUNT = (BUTTONCOUNT + 1) % NUMFILTERS;
         }
             
         button_pressed = !IO_BTN_GetValue();
         
-        IO_LED_SetHigh();
-        CoeffBandGain(filter_coeffs, BANDS, eq_presets[BUTTONCOUNT], 7);
-        drawBarChart(eq_presets[BUTTONCOUNT], ILI9341_GREEN);
+        // Check if button was pressed to switch between mode
+        if(switch_pressed && IO_SWITCH_GetValue()) {
+            // button was released so toggle the filter
+            MODE = (MODE + 1) % 2;
+        }
+            
+        switch_pressed = !IO_SWITCH_GetValue();
         
+        CoeffBandGain(filter_coeffs, BANDS, eq_presets[BUTTONCOUNT], 7);
+        
+        if (MODE){
+            LCD_FillScreen(ILI9341_BLACK);
+            if((result = f_open(&file, "LOGO.BMP", FA_READ)) != FR_OK) {
+                continue;
+            }
+            LCD_WriteBitmapFile(&file, 0, (320-185)/2);
+            f_close(&file);
+            IO_LED_SetLow();
+        }else{
+            LCD_FillScreen(ILI9341_BLACK);
+            drawBarChart(eq_presets[BUTTONCOUNT], ILI9341_GREEN);
+            IO_LED_SetHigh();
+        }        
         
         // Wait for buffer to fill up
         while(!STREAM_InputBufferReady());
@@ -199,8 +245,6 @@ int main(void) {
         for(i = 0; i < STREAM_BUFFER_SIZE; i++) {
             output_buffer[i] = Q15_U12(filter_out[i]);
         }
-        
-        // memcpy((void*) output_buffer, (void*) input_buffer, STREAM_BUFFER_SIZE * sizeof(uint16_t));
     }
     return 1; 
 }

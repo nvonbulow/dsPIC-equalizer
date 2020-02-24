@@ -13,8 +13,10 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
+    
+#define NUMFILTERS 10
 
-fractional eq_presets[10][7] = {
+fractional eq_presets[NUMFILTERS][7] = {
     //normal =
     {
         Q15(0.995f),
