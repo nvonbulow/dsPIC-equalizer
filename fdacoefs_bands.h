@@ -29,6 +29,8 @@
  * C:\Program Files\MATLAB\R2019b\extern\include\tmwtypes.h 
  */
 
+#define NUM_COEFFS 251
+
  // Band 1
 const int BL1 = 251;
 const fractional B1[251] __attribute__((space (xmemory))) = {
