@@ -46,6 +46,7 @@
       <itemPath>stream.h</itemPath>
       <itemPath>fdacoefs.h</itemPath>
       <itemPath>fdacoefs_bands.h</itemPath>
+      <itemPath>equalizer_presets.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -90,6 +91,10 @@
       <itemPath>lcd_ILI9341.c</itemPath>
       <itemPath>dac.c</itemPath>
       <itemPath>stream.c</itemPath>
+      <itemPath>equalizer.c</itemPath>
+      <itemPath>fdacoefs_bands.c</itemPath>
+      <itemPath>equalizer_presets.c</itemPath>
+      <itemPath>ui_audio.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -97,7 +102,6 @@
       <itemPath>Makefile</itemPath>
       <itemPath>mcc_config.mc3</itemPath>
     </logicalFolder>
-    <itemPath>equalizer_presets.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>

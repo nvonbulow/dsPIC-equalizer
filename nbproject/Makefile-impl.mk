@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=ece230-final-project
+PROJECTNAME=final_project.X
 
 # Active Configuration
 DEFAULTCONF=default
