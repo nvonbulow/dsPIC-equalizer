@@ -55,8 +55,10 @@
 #include "mcc_generated_files/sd_spi/sd_spi.h"
 
 #include "dac.h"
+#include "equalizer.h"
 #include "lcd_ILI9341.h"
 #include "stream.h"
+#include "ui.h"
 
 #include <dsp.h>
 
@@ -72,61 +74,29 @@ enum {
     IMAGE
 } mode = AUDIO;
 
-bool SD_OpenDrive(FATFS* drive) {
-    if( SD_SPI_IsMediaPresent() == false) {
-        return false;
-    }
-
-    if (f_mount(drive, "0:", 1) == FR_OK) {
-        return true;
-    }
-    return false;
-}
-
-bool SD_CloseDrive() {
-    if(!f_mount(0,"0:",0)) {
-        return false;
-    }
-    return true;
-}
-
-
 /*
     Main application
  */
 int main(void) {
-    uint16_t i = 0;
     bool sel_btn_pressed = false;
     bool mode_btn_pressed = false;
-    FATFS drive;
-    FIL file;
-    UINT result;
 
     // initialize the device
     SYSTEM_Initialize();
     STREAM_Initialize();
     
-    if(!SD_OpenDrive(&drive)) {
-        while(1);
-    }
-    
     LCD_Begin();
     
-    barChartInit();
+    UI_AudioInit();
+    UI_ImageInit();
     
     STREAM_InputEnable();
-    
-//    for(i = 0; i < 1024; i++) {
-//        uint16_t val = DAC_VoltageToValue(2048-i*2);
-//        STREAM_output_buffers[0][i] = val;
-//    }
-    
     STREAM_OutputEnable();
     
     EQUALIZER_Initialize();
     EQUALIZER_SetEqPreset(BUTTONCOUNT);
     
-    drawBarChart(eq_presets[BUTTONCOUNT], ILI9341_GREEN);
+    UI_DrawBarChart((fractional*) eq_presets[BUTTONCOUNT], ILI9341_GREEN);
     
     while (1) {
         uint16_t *input_buffer, *output_buffer;
@@ -147,15 +117,10 @@ int main(void) {
             
             // Draw the image if in image mode now
             if(mode == IMAGE) {
-                if(f_open(&file, "LOGO.BMP", FA_READ) != FR_OK) {
-                    mode = AUDIO;
-                    continue;
-                }
-                LCD_WriteBitmapFile(&file, 0, (ILI9341_TFTHEIGHT - 185) /2);
-                f_close(&file);
+                UI_DrawImage();
             }
             else if(mode == AUDIO) {
-                barChartInit();
+                UI_AudioInit();
             }
         }
         mode_btn_pressed = !IO_MODE_GetValue();
@@ -163,7 +128,7 @@ int main(void) {
         EQUALIZER_SetEqPreset(BUTTONCOUNT);
         
         if(mode == AUDIO) {
-            drawBarChart(eq_presets[BUTTONCOUNT], ILI9341_GREEN);
+            UI_DrawBarChart(eq_presets[BUTTONCOUNT], ILI9341_GREEN);
             IO_LED_SetHigh();
         }
         else if(mode == IMAGE) {

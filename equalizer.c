@@ -1,7 +1,10 @@
 
 #include <dsp.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <string.h>
+
+#include "equalizer.h"
 
 #include "equalizer_presets.h"
 #include "fdacoefs_bands.h"

@@ -47,6 +47,8 @@
       <itemPath>fdacoefs.h</itemPath>
       <itemPath>fdacoefs_bands.h</itemPath>
       <itemPath>equalizer_presets.h</itemPath>
+      <itemPath>ui.h</itemPath>
+      <itemPath>equalizer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -95,6 +97,7 @@
       <itemPath>fdacoefs_bands.c</itemPath>
       <itemPath>equalizer_presets.c</itemPath>
       <itemPath>ui_audio.c</itemPath>
+      <itemPath>ui_image.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
