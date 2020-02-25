@@ -75,7 +75,7 @@ void PIN_MANAGER_Initialize (void)
      ***************************************************************************/
     CNPDA = 0x0000;
     CNPDB = 0x0000;
-    CNPUA = 0x0004;
+    CNPUA = 0x0014;
     CNPUB = 0x0000;
 
     /****************************************************************************
@@ -95,10 +95,10 @@ void PIN_MANAGER_Initialize (void)
      ***************************************************************************/
     __builtin_write_RPCON(0x0000); // unlock PPS
 
-    RPINR20bits.SCK1R = 0x002A;    //RB10->SPI1:SCK1OUT
     RPOR5bits.RP42R = 0x0006;    //RB10->SPI1:SCK1OUT
     RPINR20bits.SDI1R = 0x002B;    //RB11->SPI1:SDI1
     RPOR6bits.RP44R = 0x0005;    //RB12->SPI1:SDO1
+    RPINR20bits.SCK1R = 0x002A;    //RB10->SPI1:SCK1OUT
 
     __builtin_write_RPCON(0x0800); // lock PPS
 }

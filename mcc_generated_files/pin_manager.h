@@ -365,11 +365,11 @@
   @Example
     <code>
     // Set RA2 high (1)
-    IO_BTN_SetHigh();
+    IO_SEL_SetHigh();
     </code>
 
 */
-#define IO_BTN_SetHigh()          (_LATA2 = 1)
+#define IO_SEL_SetHigh()          (_LATA2 = 1)
 /**
   @Summary
     Sets the GPIO pin, RA2, low using LATA2.
@@ -389,11 +389,11 @@
   @Example
     <code>
     // Set RA2 low (0)
-    IO_BTN_SetLow();
+    IO_SEL_SetLow();
     </code>
 
 */
-#define IO_BTN_SetLow()           (_LATA2 = 0)
+#define IO_SEL_SetLow()           (_LATA2 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RA2, using LATA2.
@@ -413,11 +413,11 @@
   @Example
     <code>
     // Toggle RA2
-    IO_BTN_Toggle();
+    IO_SEL_Toggle();
     </code>
 
 */
-#define IO_BTN_Toggle()           (_LATA2 ^= 1)
+#define IO_SEL_Toggle()           (_LATA2 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RA2.
@@ -439,11 +439,11 @@
     uint16_t portValue;
 
     // Read RA2
-    postValue = IO_BTN_GetValue();
+    postValue = IO_SEL_GetValue();
     </code>
 
 */
-#define IO_BTN_GetValue()         _RA2
+#define IO_SEL_GetValue()         _RA2
 /**
   @Summary
     Configures the GPIO pin, RA2, as an input.
@@ -463,11 +463,11 @@
   @Example
     <code>
     // Sets the RA2 as an input
-    IO_BTN_SetDigitalInput();
+    IO_SEL_SetDigitalInput();
     </code>
 
 */
-#define IO_BTN_SetDigitalInput()  (_TRISA2 = 1)
+#define IO_SEL_SetDigitalInput()  (_TRISA2 = 1)
 /**
   @Summary
     Configures the GPIO pin, RA2, as an output.
@@ -487,11 +487,11 @@
   @Example
     <code>
     // Sets the RA2 as an output
-    IO_BTN_SetDigitalOutput();
+    IO_SEL_SetDigitalOutput();
     </code>
 
 */
-#define IO_BTN_SetDigitalOutput() (_TRISA2 = 0)
+#define IO_SEL_SetDigitalOutput() (_TRISA2 = 0)
 /**
   @Summary
     Sets the GPIO pin, RA4, high using LATA4.
@@ -511,11 +511,11 @@
   @Example
     <code>
     // Set RA4 high (1)
-    IO_SWITCH_SetHigh();
+    IO_MODE_SetHigh();
     </code>
 
 */
-#define IO_SWITCH_SetHigh()          (_LATA4 = 1)
+#define IO_MODE_SetHigh()          (_LATA4 = 1)
 /**
   @Summary
     Sets the GPIO pin, RA4, low using LATA4.
@@ -535,11 +535,11 @@
   @Example
     <code>
     // Set RA4 low (0)
-    IO_SWITCH_SetLow();
+    IO_MODE_SetLow();
     </code>
 
 */
-#define IO_SWITCH_SetLow()           (_LATA4 = 0)
+#define IO_MODE_SetLow()           (_LATA4 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RA4, using LATA4.
@@ -559,11 +559,11 @@
   @Example
     <code>
     // Toggle RA4
-    IO_SWITCH_Toggle();
+    IO_MODE_Toggle();
     </code>
 
 */
-#define IO_SWITCH_Toggle()           (_LATA4 ^= 1)
+#define IO_MODE_Toggle()           (_LATA4 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RA4.
@@ -585,11 +585,11 @@
     uint16_t portValue;
 
     // Read RA4
-    postValue = IO_SWITCH_GetValue();
+    postValue = IO_MODE_GetValue();
     </code>
 
 */
-#define IO_SWITCH_GetValue()         _RA4
+#define IO_MODE_GetValue()         _RA4
 /**
   @Summary
     Configures the GPIO pin, RA4, as an input.
@@ -609,11 +609,11 @@
   @Example
     <code>
     // Sets the RA4 as an input
-    IO_SWITCH_SetDigitalInput();
+    IO_MODE_SetDigitalInput();
     </code>
 
 */
-#define IO_SWITCH_SetDigitalInput()  (_TRISA4 = 1)
+#define IO_MODE_SetDigitalInput()  (_TRISA4 = 1)
 /**
   @Summary
     Configures the GPIO pin, RA4, as an output.
@@ -633,11 +633,11 @@
   @Example
     <code>
     // Sets the RA4 as an output
-    IO_SWITCH_SetDigitalOutput();
+    IO_MODE_SetDigitalOutput();
     </code>
 
 */
-#define IO_SWITCH_SetDigitalOutput() (_TRISA4 = 0)
+#define IO_MODE_SetDigitalOutput() (_TRISA4 = 0)
 /**
   @Summary
     Sets the GPIO pin, RB10, high using LATB10.

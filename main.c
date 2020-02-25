@@ -66,7 +66,11 @@
 #include "equalizer_presets.h"
 
 uint16_t BUTTONCOUNT = 0;
-uint16_t MODE = 0;
+
+enum {
+    AUDIO,
+    IMAGE
+} mode = AUDIO;
 
 bool SD_OpenDrive(FATFS* drive) {
     if( SD_SPI_IsMediaPresent() == false) {
@@ -92,8 +96,8 @@ bool SD_CloseDrive() {
  */
 int main(void) {
     uint16_t i = 0;
-    bool button_pressed = false;
-    bool switch_pressed = false;
+    bool sel_btn_pressed = false;
+    bool mode_btn_pressed = false;
     FATFS drive;
     FIL file;
     UINT result;
@@ -119,6 +123,7 @@ int main(void) {
     
     STREAM_OutputEnable();
     
+    EQUALIZER_Initialize();
     EQUALIZER_SetEqPreset(BUTTONCOUNT);
     
     drawBarChart(eq_presets[BUTTONCOUNT], ILI9341_GREEN);
@@ -126,42 +131,51 @@ int main(void) {
     while (1) {
         uint16_t *input_buffer, *output_buffer;
         
-        // Check if button was pressed to either enable or disable the filter
-        if(button_pressed && IO_BTN_GetValue()) {
+        // Check if button was pressed to switch filters
+        if(sel_btn_pressed && IO_SEL_GetValue()) {
             // button was released so toggle the filter
             BUTTONCOUNT = (BUTTONCOUNT + 1) % NUMFILTERS;
         }
-            
-        button_pressed = !IO_BTN_GetValue();
+        sel_btn_pressed = !IO_SEL_GetValue();
         
         // Check if button was pressed to switch between mode
-        if(switch_pressed && IO_SWITCH_GetValue()) {
+        if(mode_btn_pressed && IO_MODE_GetValue()) {
             // button was released so toggle the filter
-            MODE = (MODE + 1) % 2;
-        }
+            mode = (mode + 1) % 2;
+            // Also clear the screen
+            LCD_FillScreen(ILI9341_BLACK);
             
-        switch_pressed = !IO_SWITCH_GetValue();
+            // Draw the image if in image mode now
+            if(mode == IMAGE) {
+                if(f_open(&file, "LOGO.BMP", FA_READ) != FR_OK) {
+                    mode = AUDIO;
+                    continue;
+                }
+                LCD_WriteBitmapFile(&file, 0, (ILI9341_TFTHEIGHT - 185) /2);
+                f_close(&file);
+            }
+            else if(mode == AUDIO) {
+                barChartInit();
+            }
+        }
+        mode_btn_pressed = !IO_MODE_GetValue();
         
         EQUALIZER_SetEqPreset(BUTTONCOUNT);
         
-        if (MODE){
-            LCD_FillScreen(ILI9341_BLACK);
-            if((result = f_open(&file, "LOGO.BMP", FA_READ)) != FR_OK) {
-                continue;
-            }
-            LCD_WriteBitmapFile(&file, 0, (320-185)/2);
-            f_close(&file);
-            IO_LED_SetLow();
-        }else{
-            LCD_FillScreen(ILI9341_BLACK);
+        if(mode == AUDIO) {
             drawBarChart(eq_presets[BUTTONCOUNT], ILI9341_GREEN);
             IO_LED_SetHigh();
-        }        
+        }
+        else if(mode == IMAGE) {
+            IO_LED_SetLow();
+        }
         
         // Wait for buffer to fill up
         while(!STREAM_InputBufferReady());
         input_buffer = STREAM_GetWorkingInputBuffer();
         output_buffer = STREAM_GetWorkingOutputBuffer();
+        
+        EQUALIZER_Apply(output_buffer, input_buffer);
     }
     return 1; 
 }
